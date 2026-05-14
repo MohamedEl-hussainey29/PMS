@@ -1,0 +1,41 @@
+.auth-container{
+    background-image: url("./assets/auth-bg.png");
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+}
+
+.auth-form{
+    background-color: rgba(49, 89, 81, 0.9);
+}
+
+.auth-title{
+    position: relative;
+
+    color: #EF9B28;
+    
+}
+.auth-title h3{
+    font-size: 32px;
+    font-weight: 700;
+}
+
+.auth-title::after{
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -8px;
+    width: 18px;
+    height: 4px;
+    background-color: #F5A623;
+}
+
+.form-control::placeholder{
+    color: #ffffff;
+    opacity: 1;
+}
+
+.form-input label{
+    color: #EF9B28;
+}
