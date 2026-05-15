@@ -18,6 +18,7 @@ import TasksList from './modules/Tasks/components/TasksList';
 import TaskData from './modules/Tasks/components/TaskData';
 import UserTasks from './modules/Tasks/components/UserTasks';
 import UsersList from './modules/Users/components/UsersList';
+import ProtectedRoute from './modules/Shared/components/ProtectedRoute/ProtectedRoute';
 
 
 function App() {
@@ -40,7 +41,7 @@ function App() {
 
      {
         path:"dashboard" ,
-        element:<MasterLayout/>,
+        element:<ProtectedRoute><MasterLayout/></ProtectedRoute>,
         errorElement:<NotFound/>,
         children:[
           {index:true , element : <Dashboard/>},
