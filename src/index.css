@@ -7,29 +7,3 @@
 .sidebar-color{
     background-color: rgba(14, 56, 47, 1);
 }
-.yellow-color {
-    color: #EF9B28;
-}
-h3::after {
-  content: "";
-  display: block;
-  width: 20px;
-  height: 3px;
-  background-color: #EF9B28;
-  
-}
-.input-group {
-  border: none !important;
-  border-bottom: 1px solid #fff !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
-}
-.form-control{
-    border: none !important;
-      border-radius: 0 !important;
-  box-shadow: none !important;
-}
-.save-btn:hover{
-    background-color: #EF9B28;
-    color: #fff;
-}
