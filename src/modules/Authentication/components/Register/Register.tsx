@@ -54,9 +54,10 @@ export default function Register() {
       navigate('/verify-account');
 
     } catch (error) {
-      const err = error as AxiosError<{message:string}>;
-
-      toast.error(err.response?.data?.message || "Registration failed. Please try again.");
+      const err = error as AxiosError<any>;
+      toast.error(err.response?.data?.additionalInfo?.errors?.password?.[0]
+         || err.response?.data?.message 
+         || "Registration failed. Please try again.");
     }
   };
 

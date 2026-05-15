@@ -13,7 +13,7 @@ export const VerifyAccount = (data:VerifyFormValues)=>{
 }
 
 export const Register = (data:FormData) => {
-    return axiosClient.post('/users/Register' , data, 
+    return axiosClient.post('/users/register' , data, 
         {headers: {'Content-Type': 'multipart/form-data'}}
     )
 }
