@@ -1,35 +1,57 @@
 .main-color{
     background-color: rgba(49, 89, 81, 0.9);
 }
+
 .secondary-color{
     background-color: rgba(239, 155, 40, 1);
 }
+
 .sidebar-color{
     background-color: rgba(14, 56, 47, 1);
 }
+
 .yellow-color {
     color: #EF9B28;
 }
+
 h3::after {
   content: "";
   display: block;
   width: 20px;
   height: 3px;
   background-color: #EF9B28;
-  
 }
+
 .input-group {
   border: none !important;
   border-bottom: 1px solid #fff !important;
   border-radius: 0 !important;
   box-shadow: none !important;
 }
+
 .form-control{
     border: none !important;
-      border-radius: 0 !important;
-  box-shadow: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
 }
+
 .save-btn:hover{
     background-color: #EF9B28;
     color: #fff;
+}
+
+/* from dev branch */
+.overlay{
+    background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8));
+}
+
+.icon{
+    position: absolute;
+    top: 60%;
+    right: 6px;
+    color: white;
+}
+
+.pointer{
+    cursor: pointer;
 }
