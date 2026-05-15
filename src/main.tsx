@@ -2,6 +2,9 @@ import { createRoot } from 'react-dom/client';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import '@fortawesome/fontawesome-free/css/all.min.css'
+import "@fortawesome/free-solid-svg-icons";
+import "@fortawesome/free-regular-svg-icons";
+import "@fortawesome/free-brands-svg-icons";
 import './index.css'
 import App from './App.tsx'
 import AuthContextProvider from './context/AuthContext.tsx';

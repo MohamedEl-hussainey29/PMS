@@ -9,6 +9,7 @@ export interface VerifyFormValues {
   email: string;
   code: string;
 }
+
 export default function VerifyAccount() {
 
   const {register , handleSubmit , formState:{errors}} = useForm<VerifyFormValues>();
