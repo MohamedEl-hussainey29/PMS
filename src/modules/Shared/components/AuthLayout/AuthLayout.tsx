@@ -8,8 +8,8 @@ export default function AuthLayout() {
         <div className="container-fluid">   
           <div className="row flex-column justify-content-center align-items-center vh-100">
             <img src={authLogo} alt="authLogo" className="w-25"/>
-            <div className="col-md-6 rounded rounded-3 shadow p-5 auth-form">
-              <span className="text-white">Welcome to PMS</span>
+            <div className="col-md-7 rounded rounded-3 shadow py-3 px-5 auth-form">
+              <small className="text-white">Welcome to PMS</small>
               <Outlet/>
             </div>
           </div>
