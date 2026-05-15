@@ -12,22 +12,22 @@ export interface VerifyFormValues {
 
 export default function VerifyAccount() {
 
-  const {register , handleSubmit , formState:{errors}} = useForm<VerifyFormValues>();
+  const { register, handleSubmit, formState: { errors } } = useForm<VerifyFormValues>();
   const navigate = useNavigate();
-  
-    const onSubmit = async(data:VerifyFormValues)=>{
-      try {
-        const response = await AuthAPI.VerifyAccount(data);
-        toast.success(response?.data?.message);
-        navigate('/')
-      } catch (error) {
-        if (axios.isAxiosError(error)) {
-          toast.error(error.response?.data?.message);
-        } else {
-          toast.error("Something went wrong");
-        }
+
+  const onSubmit = async (data: VerifyFormValues) => {
+    try {
+      const response = await AuthAPI.VerifyAccount(data);
+      toast.success(response?.data?.message);
+      navigate('/')
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data?.message);
+      } else {
+        toast.error("Something went wrong");
       }
     }
+  }
   return (
     <>
       <div className="auth-title">
@@ -36,18 +36,18 @@ export default function VerifyAccount() {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="mt-5 d-flex flex-column form-input">
           <label htmlFor="email">E-mail</label>
-          <input 
-            type="email" 
+          <input
+            type="email"
             id="email"
-            placeholder="Enter Your Email" 
+            placeholder="Enter Your Email"
             className="form-control px-0"
             aria-describedby="emailelpBlock"
-            style={{backgroundColor:'transparent',border:0,borderBottom:'1px solid #FFF' , borderRadius:0,color:'#FFF'}}
+            style={{ backgroundColor: 'transparent', border: 0, borderBottom: '1px solid #FFF', borderRadius: 0, color: '#FFF' }}
             {...register('email', {
-              required:'Email is required!',
-              pattern:{
+              required: 'Email is required!',
+              pattern: {
                 value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-                message:'Email is not valid!'
+                message: 'Email is not valid!'
               }
             })}
           />
@@ -55,21 +55,21 @@ export default function VerifyAccount() {
         {errors.email && <span className="text-danger">{errors.email.message}</span>}
         <div className="mt-5 d-flex flex-column form-input">
           <label htmlFor="otp">OTP Verification</label>
-          <input 
-            type="text" 
+          <input
+            type="text"
             id="otp"
-            placeholder="Enter Verification" 
+            placeholder="Enter Verification"
             className="form-control px-0"
             aria-describedby="otpelpBlock"
-            style={{backgroundColor:'transparent',border:0,borderBottom:'1px solid #FFF' , borderRadius:0,color:'#FFF'}}
-            {...register('code',{
-              required:'OTP is required!'
+            style={{ backgroundColor: 'transparent', border: 0, borderBottom: '1px solid #FFF', borderRadius: 0, color: '#FFF' }}
+            {...register('code', {
+              required: 'OTP is required!'
             })}
           />
         </div>
         {errors.code && <span className="text-danger">{errors.code.message}</span>}
         <div className="d-flex justify-content-center mt-3">
-          <button className="btn w-75 my-4 text-white py-3 rounded-5" style={{backgroundColor:'#EF9B28',fontWeight:500}}>
+          <button className="btn w-75 my-4 text-white py-3 rounded-5" style={{ backgroundColor: '#EF9B28', fontWeight: 500 }}>
             Save
           </button>
         </div>
