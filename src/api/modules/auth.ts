@@ -1,5 +1,6 @@
 import type { ChangePassFormValues } from "../../modules/Authentication/components/ChangePassword/ChangePassword"
 import type { LoginFormValues } from "../../modules/Authentication/components/Login/Login"
+import type { ResetPassFormValues } from "../../modules/Authentication/components/ResetPassword/ResetPassword"
 import type { VerifyFormValues } from "../../modules/Authentication/components/VerifyAccount/VerifyAccount"
 
 import axiosClient from "../axiosClient"
@@ -22,4 +23,7 @@ export const Register = (data: FormData) => {
         data,
         { headers: { 'Content-Type': 'multipart/form-data' } }
     )
+}
+export const ResetPass = (data: ResetPassFormValues) => {
+    return axiosClient.post('/users/Reset', data)
 }
