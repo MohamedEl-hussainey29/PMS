@@ -18,11 +18,13 @@ export const VerifyAccount = (data: VerifyFormValues) => {
     return axiosClient.put('/users/verify', data)
 }
 
-
-export const Register = (data:FormData) => {
-    return axiosClient.post('/Users/Register', data)
+export const Register = (data: FormData) => {
+    return axiosClient.post(
+        '/users/Register',
+        data,
+        { headers: { 'Content-Type': 'multipart/form-data' } }
+    )
 }
-
 
 export const ForgetPass = (data: ForgetPassFormValues) => {
     return axiosClient.post('/users/Reset/Request', data)
@@ -31,4 +33,3 @@ export const ForgetPass = (data: ForgetPassFormValues) => {
 export const ResetPass = (data: ResetPassFormValues) => {
     return axiosClient.post('/users/Reset', data)
 }
-
