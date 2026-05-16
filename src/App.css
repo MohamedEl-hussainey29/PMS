@@ -38,3 +38,11 @@
 .form-input label{
     color: #EF9B28;
 }
+
+.auth-input {
+    border: 0;
+    background-Color: transparent;
+    border-Bottom: 1px solid #FFF;
+    border-radius: 0;
+    color: #FFF
+}
