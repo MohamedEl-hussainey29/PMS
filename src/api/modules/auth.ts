@@ -1,6 +1,7 @@
 import type { ChangePassFormValues } from "../../modules/Authentication/components/ChangePassword/ChangePassword"
 import type { ForgetPassFormValues } from "../../modules/Authentication/components/ForgetPassword/ForgetPassword"
 import type { LoginFormValues } from "../../modules/Authentication/components/Login/Login"
+import type { ResetPassFormValues } from "../../modules/Authentication/components/ResetPassword/ResetPassword"
 import type { VerifyFormValues } from "../../modules/Authentication/components/VerifyAccount/VerifyAccount"
 
 import axiosClient from "../axiosClient"
@@ -29,3 +30,6 @@ export const ForgetPass = (data: ForgetPassFormValues) => {
     return axiosClient.post('/users/Reset/Request', data)
 }
 
+export const ResetPass = (data: ResetPassFormValues) => {
+    return axiosClient.post('/users/Reset', data)
+}
