@@ -19,7 +19,6 @@ export interface registerFormValues {
 }
 
 export default function Register() {
-  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const [preview, setPreview] = useState(personalImg);
   const [showPassword, setShowPassword] = useState(false);
@@ -29,16 +28,10 @@ export default function Register() {
     register,
     formState: { errors },
     handleSubmit,
-    watch
-  } = useForm<registerFormValues>(
-    {
-      mode : 'onChange'
-    }
-  );
+    watch,
+  } = useForm<registerFormValues>();
 
   const password = watch("password");
-
-  // const {onChange: imageOnChange, ...imageRegister} = register('profileImage');
 
   const appendToFormData = (data: registerFormValues) => {
     const formData = new FormData();
@@ -50,29 +43,21 @@ export default function Register() {
     formData.append("phoneNumber", data.phoneNumber);
     formData.append("confirmPassword", data.confirmPassword);
 
-    if(data.profileImage?.[0]){
-      formData.append("profileImage", data.profileImage[0]);
-    }
-
     return formData;
   };
 
   const onSubmit = async (data: registerFormValues) => {
     const formData = appendToFormData(data);
-    setIsLoading(true);
     try {
       const response = await AuthAPI.Register(formData);
-      console.log(response);
-      
       toast.success(response.data.message);
       navigate('/verify-account');
 
     } catch (error) {
-      const err = error as AxiosError<{message:string}>;
-      toast.error(err.response?.data?.message 
+      const err = error as AxiosError<any>;
+      toast.error(err.response?.data?.additionalInfo?.errors?.password?.[0]
+         || err.response?.data?.message 
          || "Registration failed. Please try again.");
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -84,36 +69,8 @@ export default function Register() {
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="row">
-          <div className="image text-center pt-1">
-            
-            <input
-              type="file"
-              id="profileImage"
-              accept="image/*"
-              className="form-control"
-              hidden
-              // {...imageRegister}
-              // onChange={(e) => {imageOnChange(e);
-              //    const file = e.target.files?.[0];
-              //     if(file){
-              //     setPreview(URL.createObjectURL(file));
-              //   }
-              // } }
-              {...register('profileImage')}
-              onChange={(e) => {
-                const file = e.target.files?.[0];
-
-                if(file){
-                  setPreview(URL.createObjectURL(file));
-                  // setValue('profileImage', e.target.files as FileList)
-                }
-              }}
-            />
-            <label
-              htmlFor="profileImage"
-              style={{ cursor: "pointer", position: "relative", width: '95px', height: '95px', display: 'inline-block' }}
-            >
-              <FontAwesomeIcon
+          <div className="image text-center pt-1 position-relative">
+            <FontAwesomeIcon
               className="fs-4 z-3"
               style={{
                 color: "#EF9B2899",
@@ -125,7 +82,27 @@ export default function Register() {
               }}
               icon={faCamera}
             />
-              <img src={preview} alt="personal image" style={{width: '95px', height: '95px', borderRadius: '50%', objectFit: 'cover'}} />
+            <input
+              type="file"
+              id="profileImage"
+              accept="image/*"
+              className="form-control"
+              hidden
+              // {...register('profileImage')}
+              // onChange={(e) => {
+              //   const file = e.target.files?.[0];
+
+              //   if(file && file[0]){
+              //     setPreview(URL.createObjectURL(file[0]));
+              //     setValue('profileImage', file)
+              //   }
+              // }}
+            />
+            <label
+              htmlFor="profileImage"
+              style={{ cursor: "pointer", position: "relative" }}
+            >
+              <img src={preview} alt="personal image" />
               <div
                 style={{
                   position: "absolute",
@@ -156,10 +133,6 @@ export default function Register() {
                 }}
                 {...register("userName", {
                   required: "UserName is required!",
-                  pattern:{
-                    value: /^(?=.*\d$)[a-zA-Z0-9]{1,8}$/,
-                    message: 'userName may not be greater than 8 characters, and end with numbers without spaces.'
-                  }
                 })}
               />
             </div>
@@ -228,7 +201,7 @@ export default function Register() {
                 {...register("password", {
                   required: "Password is required!",
                   pattern: {
-                    value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{6,}$/,
+                    value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,}$/,
                     message:
                       "Password must contain uppercase, lowercase, number and special character",
                   },
@@ -261,7 +234,7 @@ export default function Register() {
                   pattern: {
                     value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
                     message: "Email is not valid!",
-                  }
+                  },
                 })}
               />
             </div>
@@ -349,16 +322,9 @@ export default function Register() {
         <div className="d-flex justify-content-center mt-3">
           <button
             className="btn w-75 my-3 text-white py-2 fs-5 rounded-5"
-            disabled={isLoading}
-            style={{ backgroundColor: isLoading? "#97692a" : "#EF9B28",
-              cursor: isLoading? 'not-allowed' : 'pointer',
-              opacity: isLoading ? 0.8 : 1,
-              fontWeight: 500,
-           }}
+            style={{ backgroundColor: "#EF9B28", fontWeight: 500 }}
           >
-            {isLoading? (<>
-            <span className="spinner-border spinner-border-sm me-2"></span> Submitting... </>): 'Save'
-             }
+            Save
           </button>
         </div>
       </form>
