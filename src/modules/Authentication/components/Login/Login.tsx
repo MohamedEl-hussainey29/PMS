@@ -115,7 +115,7 @@ export default function Login() {
           <Link to='/forget-pass' className="text-decoration-none " style={{color:'#FFF'}}>Forgot Password?</Link>
         </div>
         <div className="d-flex justify-content-center ">
-          <button className="btn w-75 my-3 text-white py-3 rounded-5" style={{backgroundColor:'#EF9B28',fontWeight:500}}>
+          <button disabled={isLoading} className="btn w-75 my-3 text-white py-3 rounded-5" style={{backgroundColor:'#EF9B28',fontWeight:500}}>
             {isLoading ? (
               <>
                 <span
