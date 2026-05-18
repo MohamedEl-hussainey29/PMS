@@ -1,5 +1,4 @@
 import { Outlet } from "react-router-dom";
-import Header from "../Header/Header";
 import SideBar from "../SideBar/SideBar";
 import NavBar from "../NavBar/NavBar";
 
@@ -14,8 +13,7 @@ export default function MasterLayout() {
       <div className="bg-danger">
         <SideBar/>
       </div>
-      <div className="w-100 bg-success">
-        <Header/>
+      <div className="w-100">
         <Outlet/>
       </div>
 

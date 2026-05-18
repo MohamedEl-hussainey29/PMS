@@ -49,7 +49,7 @@ export default function Login() {
         <h3>Login</h3>
       </div>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="mt-5 d-flex flex-column form-input">
+        <div className="mt-5 d-flex flex-column auth-form-input">
           <label htmlFor="email">E-mail</label>
           <input 
             type="email" 
@@ -75,7 +75,7 @@ export default function Login() {
           />
         </div>
         {errors.email && <span className="text-danger">{errors.email.message}</span>}
-        <div className="mt-5 d-flex flex-column form-input">
+        <div className="mt-5 d-flex flex-column auth-form-input">
           <label htmlFor="password">Password</label>
           <div className="position-relative">
             <input

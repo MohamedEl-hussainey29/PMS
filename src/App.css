@@ -1,3 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Quicksand:wght@300..700&display=swap');
+
+body{
+    font-family: "Quicksand", sans-serif;
+}
 .auth-container{
     background-image: url("./assets/auth-bg.png");
     background-size: 100% 100%;
@@ -30,12 +35,12 @@
     background-color: #F5A623;
 }
 
-.form-control::placeholder{
+.auth-form-input .form-control::placeholder{
     color: #ffffff;
     opacity: 1;
 }
 
-.form-input label{
+.auth-form-input label{
     color: #EF9B28;
 }
 
@@ -45,4 +50,17 @@
     border-Bottom: 1px solid #FFF;
     border-radius: 0;
     color: #FFF
+}
+
+select.form-control {
+  height: 50px;
+  border: 1px solid #ced4da;
+  cursor: pointer;
+}
+
+select.form-control option {
+  padding: 10px;
+  background-color: white;
+  color: #0E382F;
+  font-size: 16px;
 }
