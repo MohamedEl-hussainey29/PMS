@@ -14,13 +14,7 @@
     color: #EF9B28;
 }
 
-h3::after {
-  content: "";
-  display: block;
-  width: 20px;
-  height: 3px;
-  background-color: #EF9B28;
-}
+
 
 .input-group {
   border: none !important;
@@ -29,7 +23,7 @@ h3::after {
   box-shadow: none !important;
 }
 
-.form-control{
+.change-password-form .form-control{
     border: none !important;
     border-radius: 0 !important;
     box-shadow: none !important;

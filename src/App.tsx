@@ -49,6 +49,7 @@ function App() {
           {path:"project-data" , element:<ProjectData/>} ,
           {path:"tasks" , element:<TasksList/>} ,
           {path:"task-data" , element:<TaskData/>} ,
+          {path:"task-data/:taskId" , element:<TaskData/>} ,
           {path:"user-tasks" , element:<UserTasks/>} ,
           {path:"users" , element:<UsersList/>} ,
           

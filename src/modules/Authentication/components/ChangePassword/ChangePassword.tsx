@@ -9,8 +9,8 @@ import {  useState } from "react";
 
 export interface ChangePassFormValues {
 
-  oldPassword: String,
-  newPassword: String,
+  oldPassword: string,
+  newPassword: string,
   confirmNewPassword: string
 
 }
@@ -40,7 +40,9 @@ export default function ChangePassword() {
   
   return <>
   <div className="change-password-container">
-    <h3 className="yellow-color">Change Password</h3>
+    <div className="auth-title">
+      <h3>Change Password</h3>
+    </div>
     <div className="change-password-form ">
       <form onSubmit={handleSubmit(onSubmit)}>
        <div className="field-container my-2">
