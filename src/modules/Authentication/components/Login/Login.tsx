@@ -5,6 +5,8 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../../../context/AuthContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 
 export interface LoginFormValues {
@@ -13,6 +15,7 @@ export interface LoginFormValues {
 }
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const {register , handleSubmit , formState:{errors}} = useForm<LoginFormValues>();
   const navigate = useNavigate();
 
@@ -23,6 +26,7 @@ export default function Login() {
   const { saveUserData } = authContext;
   
   const onSubmit = async(data:LoginFormValues)=>{
+    setIsLoading(true);
     try {
       const response = await AuthAPI.Login(data);
       localStorage.setItem('token' , response?.data?.token);
@@ -35,6 +39,8 @@ export default function Login() {
       } else {
         toast.error("Something went wrong");
       }
+    }finally{
+      setIsLoading(false);
     }
   }
   return (
@@ -99,7 +105,7 @@ export default function Login() {
               style={{cursor: "pointer",backgroundColor: "transparent",color: "#FFF"}}
               onClick={() => setShowPassword((prev) => !prev)}
             >
-              <i className={`fa-solid ${showPassword ? "fa-eye-slash" : "fa-eye"}`}></i>
+              <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
             </span>
           </div>
         </div>
@@ -110,7 +116,17 @@ export default function Login() {
         </div>
         <div className="d-flex justify-content-center ">
           <button className="btn w-75 my-3 text-white py-3 rounded-5" style={{backgroundColor:'#EF9B28',fontWeight:500}}>
-            Login
+            {isLoading ? (
+              <>
+                <span
+                  className="spinner-border spinner-border-sm me-2"
+                  role="status"
+                  aria-hidden="true"
+                ></span>
+              </>
+            ) : (
+              "Login"
+            )}
           </button>
         </div>
       </form>
