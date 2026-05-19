@@ -1,0 +1,19 @@
+import axiosClient from "../axiosClient"
+
+interface PaginationParams {
+  page: number;
+  size: number;
+}
+
+export const GetEmployeesByManager = (params?: PaginationParams) => {
+  return axiosClient.get('/Users/', {
+    params: {
+      pageNumber: params?.page, 
+      pageSize: params?.size    
+    }
+  });
+};
+
+export const ToggleActivate = (id:number)=>{
+    return axiosClient.put(`/Users/${id}`);
+}
