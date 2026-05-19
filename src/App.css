@@ -64,3 +64,71 @@ select.form-control option {
   color: #0E382F;
   font-size: 16px;
 }
+
+/* //////////////////////////////////////////////////////////// */
+
+.users-table thead tr th {
+    background-color: #315951 !important;
+    color: white !important;
+    padding: 18px 14px;
+    font-weight: 400;
+    border: none;
+}
+
+.users-table tbody tr td {
+    padding: 18px 14px;
+    border-color: #F1F1F1;
+    color: #555;
+}
+
+.users-table tbody tr {
+    vertical-align: middle;
+}
+
+.form-select:focus,
+    input:focus {
+    box-shadow: none !important;
+}
+
+.users-table {
+    min-width: 800px;
+}
+
+@media (max-width: 768px) {
+
+    .users-list-header h3 {
+        font-size: 22px;
+    }
+
+    .users-table thead tr th,
+    .users-table tbody tr td {
+        font-size: 14px;
+        padding: 14px 10px;
+    }
+
+    .dropdown-menu {
+        min-width: 120px;
+    }
+}
+
+.users-footer {
+    font-size: 14px;
+}
+
+.users-footer .form-select {
+    font-size: 14px;
+    padding: 4px 12px;
+}
+
+@media (max-width: 768px) {
+
+    .users-footer {
+        font-size: 11px;
+    }
+
+    .users-footer .form-select {
+        width: 60px !important;
+        font-size: 11px;
+        padding: 2px 8px;
+    }
+}

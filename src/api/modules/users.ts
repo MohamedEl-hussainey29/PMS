@@ -1,5 +1,19 @@
 import axiosClient from "../axiosClient"
 
-export const GetEmployees = ()=>{
-    return axiosClient.get('/Users/');
+interface PaginationParams {
+  page: number;
+  size: number;
+}
+
+export const GetEmployeesByManager = (params?: PaginationParams) => {
+  return axiosClient.get('/Users/', {
+    params: {
+      pageNumber: params?.page, 
+      pageSize: params?.size    
+    }
+  });
+};
+
+export const ToggleActivate = (id:number)=>{
+    return axiosClient.put(`/Users/${id}`);
 }

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { faChevronDown, faChevronLeft, faChevronUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
@@ -30,36 +31,55 @@ export default function TaskData() {
   const [isUserOpen, setIsUserOpen] = useState(false);
   const [isProjOpen, setIsProjOpen] = useState(false);
   const [isLoadingTask, setIsLoadingTask] = useState(!!taskId);
+  const [taskEmployee, setTaskEmployee] = useState<User | null>(null);
+  const [taskProject, setTaskProject] = useState<Project | null>(null);
   const {register, formState:{errors}, handleSubmit , setValue} = useForm<TasksFormValues>();
 
-  const {data: users} = useGetData<User[]>(UsersAPI.GetEmployees);
-  const {data: projects} = useGetData<Project[]>(ProjectsAPI.GetProjectsByManager);
+const { data: usersResponse } = useGetData<any>(UsersAPI.GetEmployeesByManager);
+const { data: projectsResponse } = useGetData<any>(ProjectsAPI.GetProjectsByManager);
+
+const users: User[] = usersResponse?.data || [];
+const projects: Project[] = projectsResponse?.data || [];
 
 useEffect(() => {
-  if (taskId && users && projects) {
+  if (taskId && users.length > 0 && projects.length > 0) {
     const getTaskDetails = async () => {
       setIsLoadingTask(true);
       try {
         const response = await TasksAPI.GetTaskById(Number(taskId));
+        setTaskEmployee(response.data.employee);
+        setTaskProject(response.data.project);
+
         setValue("title", response.data.title);
         setValue("description", response.data.description);
         setValue("employeeId", response.data.employee.id);
         setValue("projectId", response.data.project.id);
-
       } catch (error) {
         if (axios.isAxiosError(error)) {
           toast.error(error.response?.data?.message);
         } else {
           toast.error("Something went wrong");
         }
-      }finally{
+      } finally {
         setIsLoadingTask(false);
       }
     };
 
     getTaskDetails();
   }
-}, [taskId, users, projects, setValue]);
+}, [taskId, users.length, projects.length, setValue]);
+
+  const mergedUsers =
+    taskEmployee &&
+    !users.some((u) => u.id === taskEmployee.id)
+      ? [...users, taskEmployee]
+      : users;
+
+  const mergedProjects =
+    taskProject &&
+    !projects.some((p) => p.id === taskProject.id)
+      ? [...projects, taskProject]
+      : projects;
 
   const onSubmit = async (data: TasksFormValues) => {
     try {
@@ -146,7 +166,7 @@ useEffect(() => {
                           {...register('employeeId', {required:'Employee is required!' , valueAsNumber: true})}
                         >
                           <option value="">No User Selected</option>
-                          {users?.map((user) => (
+                          {mergedUsers?.map((user) => (
                             <option key={user.id} value={user.id}>
                               {user.userName}
                             </option>
@@ -167,7 +187,6 @@ useEffect(() => {
                       <label htmlFor="proj">Project</label>
                       <div className="position-relative">
                         <select
-                          disabled={!!taskId}
                           className="form-control rounded-4 pe-5"
                           id="proj"
                           onClick={() => setIsProjOpen((prev:boolean) => !prev)}
@@ -177,7 +196,7 @@ useEffect(() => {
                           {...register('projectId', {required:'Project is required!' , valueAsNumber: true})}
                         >
                           <option value="">No project Selected</option>
-                          {projects?.map((proj) => (
+                          {mergedProjects?.map((proj) => (
                             <option key={proj.id} value={proj.id}>
                               {proj.title}
                             </option>
