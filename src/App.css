@@ -46,10 +46,10 @@ body{
 
 .auth-input {
     border: 0;
-    background-Color: transparent;
+    background-Color: transparent !important;
     border-Bottom: 1px solid #FFF;
     border-radius: 0;
-    color: #FFF
+    color: #FFF !important;
 }
 
 select.form-control {
