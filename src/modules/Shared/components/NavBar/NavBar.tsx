@@ -5,48 +5,20 @@ import navbarLogo from "../../../../assets/navbarLogo.png";
 import PersonalImg from "../../../../assets/personalImg.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown, faBell } from "@fortawesome/free-solid-svg-icons";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../../../../context/AuthContext";
-import { getCurrentUser } from "../../../../api/modules/users";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
-interface UserInfo {
-  id: number;
-  userName: string;
-  email: string;
-  country: string;
-  phoneNumber: string;
-  imagePath?: string;
-  group : {
-    id: number,
-    name: string
-  }
-}
+
 
 export default function NavBar() {
   const { userData } = useContext(AuthContext)!;
-  const [userImage, setUserImage] = useState('');
-  const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const getUser = async () => {
-    try {
-      const response = await getCurrentUser();
-      const path = response.data.imagePath;
-      setUserInfo(response.data);
-      setUserImage(path && `https://upskilling-egypt.com:3003/${path}`);
-     
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
-  useEffect(() => {
-    getUser();
-  }, []);
 
   return (
     <>
@@ -59,21 +31,21 @@ export default function NavBar() {
             <div className="col-md-4">
               <div className="inner d-flex align-items-center justify-content-center">
                 <img
-                  src={`https://upskilling-egypt.com:3003/${userImage}` || PersonalImg}
-                  className="w-75 h-25 "
+                  src={userData?.imagePath || PersonalImg}
+                  className="w-75 h-25 rounded rounded-3 "
                   alt="personal image"
-                  style={{ width: "50px", height: "50px" }}
+                  style={{ width: "300px", height: "200px", objectFit: "cover" }}
                 />
               </div>
             </div>
 
-            <div className="col-md-8 mt-4">
-              <h6 className="fw-bold fs-5" style={{color: '#1a6657'}}> <span style={{color: '#EF9B28', fontWeight: 'bold', fontSize: '19px'}}> UserName : </span> {userInfo?.userName} </h6>
-              <span className="d-block fw-bold fs-5" style={{color: '#1a6657'}}><span style={{color: '#EF9B28', fontWeight: 'bold', fontSize: '19px'}}> UserRole : </span>  {userInfo?.group.name} </span>
-              <span className="fw-bold fs-5" style={{color: '#1a6657'}}> <span style={{color: '#EF9B28', fontWeight: 'bold', fontSize: '19px'}}> Email : </span> {userInfo?.email}</span>
-              <span className="d-block fw-bold fs-5" style={{color: '#1a6657'}}><span style={{color: '#EF9B28', fontWeight: 'bold', fontSize: '19px'}}> UserId : </span> {userInfo?.id}</span>
-              <span className="d-block py-1 fw-bold fs-5" style={{color: '#1a6657'}}><span style={{color: '#EF9B28', fontWeight: 'bold', fontSize: '19px'}}> Country : </span> {userInfo?.country} </span>
-              <span className="d-block fw-bold fs-5" style={{color: '#1a6657'}}><span style={{color: '#EF9B28', fontWeight: 'bold', fontSize: '19px'}}> Phone Number : </span> {userInfo?.phoneNumber} </span>
+            <div className="col-md-8 mt-4 py-5">
+              <span className=" info" > <span className="profile-info"> UserName : </span> {userData?.userName} </span>
+              <span className=" info py-1" ><span className="profile-info"> UserRole : </span>  {userData?.userGroup} </span>
+              <span className="info"> <span className="profile-info"> Email : </span> {userData?.userEmail}</span>
+              <span className=" info py-1"><span className="profile-info"> UserId : </span> {userData?.userId}</span>
+              <span className="  info"><span className="profile-info"> Country : </span> {userData?.country} </span>
+              <span className="info pt-1"><span className="profile-info"> Phone Number : </span> {userData?.phoneNumber} </span>
 
             </div>
           </div>
@@ -130,7 +102,7 @@ export default function NavBar() {
 
               <div className="d-flex align-items-center justify-content-center">
                 <img
-                  src={userImage || PersonalImg}
+                  src={userData?.imagePath || PersonalImg}
                   onError={(e) => {e.currentTarget.src = PersonalImg}}
                   className="col-3 rounded rounded-5"
                   alt="personal image"

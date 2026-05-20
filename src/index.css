@@ -65,8 +65,12 @@
 
 
 /* sidebar */
+.sidebar-container{
+    height: 100%;
+    background-color: #0E382F !important;
+}
 .sidebar-container .ps-sidebar-container {
-height: 870px;
+height: 100vh;
 background-color: #0E382F;
 color: white;
 transition: all;
@@ -97,4 +101,16 @@ width: 3px;
 height: 40px;
 top: 20px;
 left: 0;
+}
+/* navbar */
+.profile-info{
+    color: #EF9B28;
+    font-weight: 'bold';
+    font-size: '19px';
+}
+.info{
+    color: #1a6657;
+    font-weight: bold;
+    font-size: 20px;
+    display: block;
 }
