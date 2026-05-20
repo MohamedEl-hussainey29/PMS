@@ -72,7 +72,7 @@ const { data: paginationWrapper, isLoading, refetch } = useGetData<PaginatedResp
     <>
       <div className="container-fluid">
         <div className="row">
-          <div className="users-list-header px-4 text-white">
+          <div className="users-list-header p-4 text-white">
             <h3 style={{ color: "#0E382F" }}>Users</h3>
           </div>
           <div

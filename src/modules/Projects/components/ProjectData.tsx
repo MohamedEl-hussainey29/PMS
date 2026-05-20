@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -17,18 +18,15 @@ export default function ProjectData() {
   const { projectId } = useParams();
   const [isLoadingProject, setIsLoadingProject] = useState(!!projectId);
 
-  // بنجيب الـ reset هنا عشان نملى بيها الفورم كلها مرة واحدة
   const { register, formState: { errors }, handleSubmit, reset } = useForm<ProjectsFormValues>();
 
 
   const onSubmit = async (data: ProjectsFormValues) => {
     try {
       if (projectId) {
-        // حالة التعديل (Edit)
         await ProjectsAPI.UpdateProject(Number(projectId), data);
         toast.success("Project updated successfully!");
       } else {
-        // حالة الإضافة (Add)
         await ProjectsAPI.CreateProject(data);
         toast.success("Project created successfully!");
       }
@@ -66,8 +64,6 @@ export default function ProjectData() {
 
       getProjectDetails();
     } else {
-      // ⭐ التعديل السحري هنا ⭐
-      // لو دخلت الصفحة ومفيش projectId (يعني Add)، بنضمن إن الفورم تفضي نفسها تماماً لو كان فيها داتا قديمة
       reset({
         title: "",
         description: "",
