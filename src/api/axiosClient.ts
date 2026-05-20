@@ -25,7 +25,7 @@ axiosClient.interceptors.response.use(
     },
     (error) => {
         if (error.response) {
-            if (error.response?.status === 401 && window.location.pathname !== "/login") { 
+            if (error.response?.status === 401 && window.location.pathname !== "/login" && window.location.pathname !== "/") { 
                 localStorage.removeItem("token");
                 window.location.href = "/login";
             }
