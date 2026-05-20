@@ -31,12 +31,8 @@ export default function Register() {
     formState: { errors },
     handleSubmit,
     watch,
-    setValue,
-  } = useForm<registerFormValues>({
-    mode: "onChange",
-  });
+  } = useForm<registerFormValues>();
 
-  // const profileImageRegister = register("profileImage");
   const password = watch("password");
 
   const appendToFormData = (data: registerFormValues) => {
@@ -49,9 +45,6 @@ export default function Register() {
     formData.append("phoneNumber", data.phoneNumber);
     formData.append("confirmPassword", data.confirmPassword);
 
-    // if (data.profileImage?.[0]) {
-    //   formData.append("profileImage", data.profileImage[0]);
-    // }
      if (selectedImage) {
     formData.append("profileImage", selectedImage);
   }
@@ -60,11 +53,8 @@ export default function Register() {
   };
 
   const onSubmit = async (data: registerFormValues) => {
- 
-
-  
     const formData = appendToFormData(data);
-    //
+
     for (const pair of formData.entries()) {
       console.log(pair[0], pair[1]);
     }
@@ -99,18 +89,6 @@ export default function Register() {
               id="profileImage"
               accept="image/*"
               className="form-control d-none"
-             
-              // {...profileImageRegister}
-              // onChange={(e) => {
-              //   profileImageRegister.onChange(e);
-              //   const file = e.target.files?.[0];
-              //   if (file) {
-              //     setPreview(URL.createObjectURL(file));
-              //     // profileImageRegister.onChange(e);
-              //     setValue("profileImage", e.target.files as FileList);
-              //   }
-              // }}
-              
               onChange={(e) => {
                 const file = e.target.files?.[0];
                 
@@ -372,7 +350,6 @@ export default function Register() {
             )}
           </div>
         </div>
-
         <div className="d-flex justify-content-center mt-3">
           <button
             className="btn w-75 my-3 text-white py-2 fs-5 rounded-5"
