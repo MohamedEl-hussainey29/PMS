@@ -35,7 +35,9 @@ export default function Login() {
       navigate('/dashboard');
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        toast.error(error.response?.data?.message);
+        toast.error(
+          error.response?.data?.message || "Invalid email or password"
+        );
       } else {
         toast.error("Something went wrong");
       }
