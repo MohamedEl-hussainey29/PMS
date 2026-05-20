@@ -1,3 +1,4 @@
+
 import type { TasksFormValues } from "../../modules/Tasks/components/TaskData";
 import axiosClient from "../axiosClient";
 
@@ -11,4 +12,8 @@ export const GetTaskById = (id:number)=>{
 
 export const UpdateTask = (id:number,data:TasksFormValues)=>{
     return axiosClient.put(`/task/${id}`,data);
+}
+
+export const getTasksCount = () => {
+    return axiosClient.get('/Task/count');
 }

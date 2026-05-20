@@ -31,7 +31,7 @@ export default function AuthContextProvider({children}:AuthContextProviderProps)
         const encodedToken = localStorage.getItem('token')
         if(encodedToken){
             const decodedToken = jwtDecode<User>(encodedToken)
-            setUserData(decodedToken)
+            setUserData(decodedToken);
         }
     }
 
