@@ -15,7 +15,7 @@ export interface registerFormValues {
   phoneNumber: string;
   password: string;
   confirmPassword: string;
-  profileImage?: FileList;
+  
 }
 
 export default function Register() {
@@ -24,13 +24,13 @@ export default function Register() {
   const [preview, setPreview] = useState(personalImg);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+ const [selectedImage, setSelectedImage] = useState<File | null>(null);
 
   const {
     register,
     formState: { errors },
     handleSubmit,
     watch,
-    setValue,
   } = useForm<registerFormValues>();
 
   const password = watch("password");
@@ -45,27 +45,31 @@ export default function Register() {
     formData.append("phoneNumber", data.phoneNumber);
     formData.append("confirmPassword", data.confirmPassword);
 
-    if(data.profileImage?.[0]){
-      formData.append("profileImage", data.profileImage[0]);
-    }
+     if (selectedImage) {
+    formData.append("profileImage", selectedImage);
+  }
 
     return formData;
   };
 
   const onSubmit = async (data: registerFormValues) => {
     const formData = appendToFormData(data);
+
+    for (const pair of formData.entries()) {
+      console.log(pair[0], pair[1]);
+    }
     setIsLoading(true);
     try {
       const response = await AuthAPI.Register(formData);
-      console.log(response);
-      
-      toast.success(response.data.message);
-      navigate('/verify-account');
+      console.log(response.data);
 
+      toast.success(response.data.message);
+      navigate("/verify-account");
     } catch (error) {
-      const err = error as AxiosError<{message:string}>;
-      toast.error(err.response?.data?.message 
-         || "Registration failed. Please try again.");
+      const err = error as AxiosError<{ message: string }>;
+      toast.error(
+        err.response?.data?.message || "Registration failed. Please try again.",
+      );
     } finally {
       setIsLoading(false);
     }
@@ -79,41 +83,53 @@ export default function Register() {
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="row">
-          <div className="image text-center">
-            
+          <div className="image text-center pt-1">
             <input
               type="file"
               id="profileImage"
               accept="image/*"
-              className="form-control"
-              hidden
-              {...register('profileImage')}
+              className="form-control d-none"
               onChange={(e) => {
                 const file = e.target.files?.[0];
-
-                if(file){
+                
+                if (file) {
+                   setSelectedImage(file);
                   setPreview(URL.createObjectURL(file));
-                  setValue('profileImage', e.target.files as FileList)
                 }
               }}
             />
             <label
               htmlFor="profileImage"
-              style={{ cursor: "pointer", position: "relative", width: '95px', height: '95px', display: 'inline-block' }}
+              style={{
+                cursor: "pointer",
+                position: "relative",
+                width: "95px",
+                height: "95px",
+                display: "inline-block",
+              }}
             >
               <FontAwesomeIcon
-              className="fs-4 z-3"
-              style={{
-                color: "#EF9B2899",
-                cursor: "pointer",
-                position: "absolute",
-                top: "40%",
-                left: "50%",
-                transform: "translate(-50%)",
-              }}
-              icon={faCamera}
-            />
-              <img src={preview} alt="personal image" style={{width: '95px', height: '95px', borderRadius: '50%', objectFit: 'cover'}} />
+                className="fs-4 z-3"
+                style={{
+                  color: "#EF9B2899",
+                  cursor: "pointer",
+                  position: "absolute",
+                  top: "40%",
+                  left: "50%",
+                  transform: "translate(-50%)",
+                }}
+                icon={faCamera}
+              />
+              <img
+                src={preview}
+                alt="personal image"
+                style={{
+                  width: "95px",
+                  height: "95px",
+                  borderRadius: "50%",
+                  objectFit: "cover",
+                }}
+              />
               <div
                 style={{
                   position: "absolute",
@@ -144,10 +160,11 @@ export default function Register() {
                 }}
                 {...register("userName", {
                   required: "UserName is required!",
-                  pattern:{
+                  pattern: {
                     value: /^(?=.*\d$)[a-zA-Z0-9]{1,8}$/,
-                    message: 'userName may not be greater than 8 characters, and end with numbers without spaces.'
-                  }
+                    message:
+                      "userName may not be greater than 8 characters, and end with numbers without spaces.",
+                  },
                 })}
               />
             </div>
@@ -216,7 +233,8 @@ export default function Register() {
                 {...register("password", {
                   required: "Password is required!",
                   pattern: {
-                    value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{6,}$/,
+                    value:
+                      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{6,}$/,
                     message:
                       "Password must contain uppercase, lowercase, number and special character",
                   },
@@ -249,7 +267,7 @@ export default function Register() {
                   pattern: {
                     value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
                     message: "Email is not valid!",
-                  }
+                  },
                 })}
               />
             </div>
@@ -275,8 +293,7 @@ export default function Register() {
                 {...register("phoneNumber", {
                   required: "PhoneNumber is required!",
                   pattern: {
-                    value:
-                      /^\+?[0-9\s\-()]{10,15}$/,
+                    value: /^\+?[0-9\s\-()]{10,15}$/,
                     message: "Please enter a valid phone number",
                   },
                 })}
@@ -333,20 +350,25 @@ export default function Register() {
             )}
           </div>
         </div>
-
         <div className="d-flex justify-content-center mt-3">
           <button
             className="btn w-75 my-3 text-white py-2 fs-5 rounded-5"
             disabled={isLoading}
-            style={{ backgroundColor: isLoading? "#97692a" : "#EF9B28",
-              cursor: isLoading? 'not-allowed' : 'pointer',
+            style={{
+              backgroundColor: isLoading ? "#97692a" : "#EF9B28",
+              cursor: isLoading ? "not-allowed" : "pointer",
               opacity: isLoading ? 0.8 : 1,
               fontWeight: 500,
-           }}
+            }}
           >
-            {isLoading? (<>
-            <span className="spinner-border spinner-border-sm me-2"></span> Submitting... </>): 'Save'
-             }
+            {isLoading ? (
+              <>
+                <span className="spinner-border spinner-border-sm me-2"></span>{" "}
+                Submitting...{" "}
+              </>
+            ) : (
+              "Save"
+            )}
           </button>
         </div>
       </form>

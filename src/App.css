@@ -67,7 +67,7 @@ select.form-control option {
 
 /* //////////////////////////////////////////////////////////// */
 
-.users-table thead tr th {
+.custom-table thead tr th {
     background-color: #315951 !important;
     color: white !important;
     padding: 18px 14px;
@@ -75,13 +75,13 @@ select.form-control option {
     border: none;
 }
 
-.users-table tbody tr td {
+.custom-table tbody tr td {
     padding: 18px 14px;
     border-color: #F1F1F1;
     color: #555;
 }
 
-.users-table tbody tr {
+.custom-table tbody tr {
     vertical-align: middle;
 }
 
@@ -90,7 +90,7 @@ select.form-control option {
     box-shadow: none !important;
 }
 
-.users-table {
+.custom-table {
     min-width: 800px;
 }
 
@@ -100,8 +100,8 @@ select.form-control option {
         font-size: 22px;
     }
 
-    .users-table thead tr th,
-    .users-table tbody tr td {
+    .custom-table thead tr th,
+    .custom-table tbody tr td {
         font-size: 14px;
         padding: 14px 10px;
     }
@@ -111,22 +111,22 @@ select.form-control option {
     }
 }
 
-.users-footer {
+.custom-table-footer {
     font-size: 14px;
 }
 
-.users-footer .form-select {
+.custom-table-footer .form-select {
     font-size: 14px;
     padding: 4px 12px;
 }
 
 @media (max-width: 768px) {
 
-    .users-footer {
+    .custom-table-footer {
         font-size: 11px;
     }
 
-    .users-footer .form-select {
+    .custom-table-footer .form-select {
         width: 60px !important;
         font-size: 11px;
         padding: 2px 8px;

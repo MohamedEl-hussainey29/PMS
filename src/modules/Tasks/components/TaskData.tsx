@@ -116,7 +116,7 @@ useEffect(() => {
           </div>
           <div className="vh-100" style={{ backgroundColor: "#EEE" }}>
             <div className="row justify-content-center align-items-center">
-              <div className="col-md-8 bg-white my-4 rounded-3">
+              <div className="col-md-10 bg-white my-4 rounded-3">
                 {isLoadingTask ? (
                   <div
                     className="d-flex justify-content-center align-items-center"
@@ -187,6 +187,7 @@ useEffect(() => {
                       <label htmlFor="proj">Project</label>
                       <div className="position-relative">
                         <select
+                          disabled={!!taskId}
                           className="form-control rounded-4 pe-5"
                           id="proj"
                           onClick={() => setIsProjOpen((prev:boolean) => !prev)}

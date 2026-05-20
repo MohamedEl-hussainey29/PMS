@@ -1,5 +1,31 @@
+import type { ProjectsFormValues } from "../../modules/Projects/components/ProjectData";
 import axiosClient from "../axiosClient";
 
-export const GetProjectsByManager = ()=>{
-    return axiosClient.get('/project/manager');
+interface PaginationParams {
+  page: number;
+  size: number;
+}
+
+export const GetProjectsByManager = (params?: PaginationParams) => {
+  return axiosClient.get('/project/manager', {
+    params: {
+      pageNumber: params?.page,
+      pageSize: params?.size
+    }
+  });
+};
+
+export const DeleteProjectById = (id: number) => {
+  return axiosClient.delete(`/project/${id}`);
+}
+export const CreateProject = (data: ProjectsFormValues) => {
+  return axiosClient.post('/project', data);
+}
+
+export const GetProjectById = (id: number) => {
+  return axiosClient.get(`/Project/${id}`);
+}
+
+export const UpdateProject = (id: number, data: ProjectsFormValues) => {
+  return axiosClient.put(`/Project/${id}`, data);
 }
