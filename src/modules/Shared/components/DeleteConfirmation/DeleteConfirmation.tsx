@@ -22,8 +22,8 @@ export default function DeleteConfirmation({show,handleClose,onDelete,item,itemD
         <Modal.Body>
           <div className="text-center">
           <img src={deleteConfirm} alt="noData" className="img-fluid" style={{width:"250px" ,  height:"250px", objectFit:"contain"}}  />
-            <h3 className='my-2' style={{color:'rgba(73, 73, 73, 1)'}}>Delete this {item}!</h3>
-            <p style={{color:'rgba(73, 73, 73, 0.6)'}}>are you sure you want to delete {itemData?.title} ? if you are sure just click on delete it</p>
+            <h3 className='my-2' style={{color:'rgba(73, 73, 73, 1)'}}>Delete this <span className='text-success'>{item}</span>!</h3>
+            <p style={{color:'rgba(73, 73, 73, 0.6)'}}>are you sure you want to delete <span className='text-danger'>{itemData?.title}</span> ? if you are sure just click on delete</p>
           </div>
         </Modal.Body>
         <Modal.Footer>
