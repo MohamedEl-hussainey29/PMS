@@ -58,7 +58,7 @@ export default function SideBar() {
       </Modal>
 
       {/* sidebar */}
-      <div className="sidebar-container position-relative me-5">
+      <div className="sidebar-container position-relative">
         <Sidebar collapsed={isCollapsed}>
           <Menu
             className="mt-5"
