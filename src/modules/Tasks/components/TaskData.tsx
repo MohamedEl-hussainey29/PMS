@@ -187,6 +187,7 @@ useEffect(() => {
                       <label htmlFor="proj">Project</label>
                       <div className="position-relative">
                         <select
+                          disabled={!!taskId}
                           className="form-control rounded-4 pe-5"
                           id="proj"
                           onClick={() => setIsProjOpen((prev:boolean) => !prev)}

@@ -7,7 +7,7 @@ interface PaginationParams {
 }
 
 export const GetEmployeesByManager = (params?: PaginationParams) => {
-  return axiosClient.get('/Users/', {
+  return axiosClient.get('/Users/manager', {
     params: {
       pageNumber: params?.page, 
       pageSize: params?.size    

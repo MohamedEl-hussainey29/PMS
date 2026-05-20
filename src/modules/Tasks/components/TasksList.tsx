@@ -128,7 +128,7 @@ const { data: paginationWrapper, isLoading, refetch } = useGetData<PaginatedResp
                     <i className="fa-solid fa-magnifying-glass text-secondary"></i>
                     <input
                       type="text"
-                      placeholder="Search Users"
+                      placeholder="Search "
                       className="border-0 ms-2 w-100"
                       style={{ outline: "none" }}
                     />
@@ -154,7 +154,7 @@ const { data: paginationWrapper, isLoading, refetch } = useGetData<PaginatedResp
                   </div>
                 </div>
               ) : (
-                <Table striped hover responsive className="align-middle custom-table custom-table">
+                <Table striped hover className="align-middle custom-table custom-table">
                   <thead>
                     <tr>
                       <th>Title</th>
