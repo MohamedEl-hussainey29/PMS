@@ -15,7 +15,7 @@ export interface registerFormValues {
   phoneNumber: string;
   password: string;
   confirmPassword: string;
-  profileImage?: FileList;
+  
 }
 
 export default function Register() {
@@ -24,6 +24,7 @@ export default function Register() {
   const [preview, setPreview] = useState(personalImg);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+ const [selectedImage, setSelectedImage] = useState<File | null>(null);
 
   const {
     register,
@@ -35,7 +36,7 @@ export default function Register() {
     mode: "onChange",
   });
 
-  const profileImageRegister = register("profileImage");
+  // const profileImageRegister = register("profileImage");
   const password = watch("password");
 
   const appendToFormData = (data: registerFormValues) => {
@@ -48,17 +49,25 @@ export default function Register() {
     formData.append("phoneNumber", data.phoneNumber);
     formData.append("confirmPassword", data.confirmPassword);
 
-    if (data.profileImage?.[0]) {
-      formData.append("profileImage", data.profileImage[0]);
-    }
+    // if (data.profileImage?.[0]) {
+    //   formData.append("profileImage", data.profileImage[0]);
+    // }
+     if (selectedImage) {
+    formData.append("profileImage", selectedImage);
+  }
 
     return formData;
   };
 
   const onSubmit = async (data: registerFormValues) => {
-    console.log(data.profileImage);
-    console.log(data.profileImage?.[0]);
+ 
+
+  
     const formData = appendToFormData(data);
+    //
+    for (const pair of formData.entries()) {
+      console.log(pair[0], pair[1]);
+    }
     setIsLoading(true);
     try {
       const response = await AuthAPI.Register(formData);
@@ -89,16 +98,25 @@ export default function Register() {
               type="file"
               id="profileImage"
               accept="image/*"
-              className="form-control"
-              hidden
-              {...profileImageRegister}
+              className="form-control d-none"
+             
+              // {...profileImageRegister}
+              // onChange={(e) => {
+              //   profileImageRegister.onChange(e);
+              //   const file = e.target.files?.[0];
+              //   if (file) {
+              //     setPreview(URL.createObjectURL(file));
+              //     // profileImageRegister.onChange(e);
+              //     setValue("profileImage", e.target.files as FileList);
+              //   }
+              // }}
+              
               onChange={(e) => {
-                profileImageRegister.onChange(e);
                 const file = e.target.files?.[0];
+                
                 if (file) {
+                   setSelectedImage(file);
                   setPreview(URL.createObjectURL(file));
-                  // profileImageRegister.onChange(e);
-                  setValue("profileImage", e.target.files as FileList);
                 }
               }}
             />
