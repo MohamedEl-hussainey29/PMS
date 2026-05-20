@@ -154,7 +154,7 @@ const { data: paginationWrapper, isLoading, refetch } = useGetData<PaginatedResp
                   </div>
                 </div>
               ) : (
-                <Table striped hover responsive className="align-middle custom-table users-table">
+                <Table striped hover responsive className="align-middle custom-table custom-table">
                   <thead>
                     <tr>
                       <th>Title</th>
@@ -211,7 +211,7 @@ const { data: paginationWrapper, isLoading, refetch } = useGetData<PaginatedResp
                   </tbody>
                 </Table>
               )}
-              <div className="users-footer mt-4 px-3">
+              <div className="custom-table-footer mt-4 px-3">
                 <div className="d-flex justify-content-center justify-content-md-end align-items-center flex-wrap gap-2">
                   <span>Showing</span>
                   <select
