@@ -167,21 +167,22 @@ const { data: paginationWrapper, isLoading, refetch } = useGetData<PaginatedResp
                   </thead>
                   <tbody>
                     {tasks.map((task) => (
-                      <tr key={task.id}>
-                        <td>{task.title}</td>
+                      <tr key={task?.id}>
+                        <td>{task?.title}</td>
                         <td>
                           <span
                             className="px-3 py-1 rounded-pill text-white small"
                             style={{
-                              backgroundColor: task.status == 'ToDo' ? "#198754" : "#C97A7A",
+                              backgroundColor: task?.status == 'ToDo' ? "#E4E1F5"
+                               : task?.status == 'InProgress' ? "#EF9B28A3": "#009247"
                             }}
                           >
-                            {task.status}
+                            {task?.status}
                           </span>
                         </td>
-                        <td>{task.employee.userName}</td>
-                        <td>{task.project.title}</td>
-                        <td>{task.creationDate}</td>
+                        <td>{task?.employee.userName}</td>
+                        <td>{task?.project.title}</td>
+                        <td>{task?.creationDate}</td>
                         <td>
                           <div className="dropdown">
                             <button className="btn border-0" data-bs-toggle="dropdown">
