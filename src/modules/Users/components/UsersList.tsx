@@ -121,7 +121,7 @@ const { data: paginationWrapper, isLoading, refetch } = useGetData<PaginatedResp
                   </div>
                 </div>
               ) : (
-                <Table striped hover responsive className="align-middle custom-table custom-table">
+                <Table striped hover className="align-middle custom-table custom-table">
                   <thead>
                     <tr>
                       <th>User Name</th>
