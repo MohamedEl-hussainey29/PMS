@@ -4,13 +4,15 @@ import axiosClient from "../axiosClient"
 interface PaginationParams {
   page: number;
   size: number;
+  groups: number;
 }
 
 export const GetEmployeesByManager = (params?: PaginationParams) => {
-  return axiosClient.get('/Users/manager', {
+  return axiosClient.get('/Users/', {
     params: {
       pageNumber: params?.page, 
-      pageSize: params?.size    
+      pageSize: params?.size,
+      groups: params?.groups    
     }
   });
 };

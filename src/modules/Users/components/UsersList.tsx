@@ -34,7 +34,7 @@ export default function UsersList() {
   const [pageSize, setPageSize] = useState<number>(10);
 
   const fetchUsers = useCallback(() => {
-  return UsersAPI.GetEmployeesByManager({ page: currentPage, size: pageSize });
+  return UsersAPI.GetEmployeesByManager({ page: currentPage, size: pageSize , groups: 2 });
 }, [currentPage, pageSize]);
 
 const { data: paginationWrapper, isLoading, refetch } = useGetData<PaginatedResponse>(
