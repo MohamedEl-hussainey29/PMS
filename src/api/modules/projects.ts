@@ -15,6 +15,15 @@ export const GetProjectsByManager = (params?: PaginationParams) => {
   });
 };
 
+export const GetProjectsByEmployee = (params?: PaginationParams) => {
+  return axiosClient.get('/project/employee', {
+    params: {
+      pageNumber: params?.page,
+      pageSize: params?.size
+    }
+  });
+};
+
 export const DeleteProjectById = (id: number) => {
   return axiosClient.delete(`/project/${id}`);
 }

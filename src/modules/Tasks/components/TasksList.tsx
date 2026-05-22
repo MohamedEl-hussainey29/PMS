@@ -17,6 +17,7 @@ import { TasksAPI } from "../../../api";
 import { toast } from "react-toastify";
 import axios from "axios";
 import DeleteConfirmation from "../../Shared/components/DeleteConfirmation/DeleteConfirmation";
+import NoData from "../../Shared/components/NoData/NoData";
 
 interface Task {
   id: number;
@@ -43,7 +44,7 @@ export default function TasksList() {
 
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [pageSize, setPageSize] = useState<number>(10);
+  const [pageSize, setPageSize] = useState<number>(5);
   const [taskData , setTaskData] = useState<Task | null>(null);
 
 
@@ -166,53 +167,61 @@ const { data: paginationWrapper, isLoading, refetch } = useGetData<PaginatedResp
                     </tr>
                   </thead>
                   <tbody>
-                    {tasks.map((task) => (
-                      <tr key={task?.id}>
-                        <td>{task?.title}</td>
-                        <td>
-                          <span
-                            className="px-3 py-1 rounded-pill text-white small"
-                            style={{
-                              backgroundColor: task?.status == 'ToDo' ? "#E4E1F5"
-                               : task?.status == 'InProgress' ? "#EF9B28A3": "#009247"
-                            }}
-                          >
-                            {task?.status}
-                          </span>
-                        </td>
-                        <td>{task?.employee.userName}</td>
-                        <td>{task?.project.title}</td>
-                        <td>{task?.creationDate}</td>
-                        <td>
-                          <div className="dropdown">
-                            <button className="btn border-0" data-bs-toggle="dropdown">
-                              <FontAwesomeIcon icon={faEllipsisVertical} />
-                            </button>
-                            <ul className="dropdown-menu border-0 shadow rounded-4">
-                              <li>
-                               <button className="dropdown-item">
-                                  <FontAwesomeIcon color="green" icon={faEye} className="me-1"/> View
-                                </button>
-                              </li>
-                              <li>
-                               <button className="dropdown-item" onClick={()=>navigate(`/dashboard/task-data/${task.id}`)}>
-                                  <FontAwesomeIcon color="green" icon={faEdit} className="me-1"/> Edit
-                                </button>
-                              </li>
-                              <li>
-                                <button className="dropdown-item" onClick={()=>handleShow(task)}>
-                                  <FontAwesomeIcon color="green" icon={faTrashCan} className="me-1"/> Delete
-                                </button>
-                              </li>
-                            </ul>
-                          </div>
+                    {
+                      totalResults > 0 ?
+                      tasks.map((task) => (
+                        <tr key={task?.id}>
+                          <td>{task?.title}</td>
+                          <td>
+                            <span
+                              className="px-3 py-1 rounded-pill text-white small"
+                              style={{
+                                backgroundColor: task?.status == 'ToDo' ? "#E4E1F5"
+                                : task?.status == 'InProgress' ? "#EF9B28A3": "#009247"
+                              }}
+                            >
+                              {task?.status}
+                            </span>
+                          </td>
+                          <td>{task?.employee.userName}</td>
+                          <td>{task?.project.title}</td>
+                          <td>{task?.creationDate}</td>
+                          <td>
+                            <div className="dropdown">
+                              <button className="btn border-0" data-bs-toggle="dropdown">
+                                <FontAwesomeIcon icon={faEllipsisVertical} />
+                              </button>
+                              <ul className="dropdown-menu border-0 shadow rounded-4">
+                                <li>
+                                <button className="dropdown-item">
+                                    <FontAwesomeIcon color="green" icon={faEye} className="me-1"/> View
+                                  </button>
+                                </li>
+                                <li>
+                                <button className="dropdown-item" onClick={()=>navigate(`/dashboard/task-data/${task.id}`)}>
+                                    <FontAwesomeIcon color="green" icon={faEdit} className="me-1"/> Edit
+                                  </button>
+                                </li>
+                                <li>
+                                  <button className="dropdown-item" onClick={()=>handleShow(task)}>
+                                    <FontAwesomeIcon color="green" icon={faTrashCan} className="me-1"/> Delete
+                                  </button>
+                                </li>
+                              </ul>
+                            </div>
+                          </td>
+                        </tr>
+                      )):(
+                      <tr>
+                        <td colSpan={6} className="no-data-row">
+                          <NoData />
                         </td>
                       </tr>
-                    ))}
+                    )}
                   </tbody>
                 </Table>
               )}
-              <div className="custom-table-footer mt-4 px-3">
+              <div className="custom-table-footer mt-4 px-3" style={{display: totalResults <= 5 ? 'none' : 'block'}}>
                 <div className="d-flex justify-content-center justify-content-md-end align-items-center flex-wrap gap-2">
                   <span>Showing</span>
                   <select

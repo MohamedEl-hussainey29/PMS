@@ -12,6 +12,7 @@ import {
 import { faCircleCheck } from "@fortawesome/free-regular-svg-icons";
 import useGetData from "../../../hooks/useGetData";
 import { UsersAPI } from "../../../api";
+import NoData from "../../Shared/components/NoData/NoData";
 
 interface User {
   id: number;
@@ -132,54 +133,62 @@ const { data: paginationWrapper, isLoading, refetch } = useGetData<PaginatedResp
                     </tr>
                   </thead>
                   <tbody>
-                    {users.map((user) => (
-                      <tr key={user.id}>
-                        <td>{user.userName}</td>
-                        <td>
-                          <span
-                            className="px-3 py-1 rounded-pill text-white small"
-                            style={{
-                              backgroundColor: user.isActivated ? "#198754" : "#C97A7A",
-                            }}
-                          >
-                            {user.isActivated ? "Active" : "Not Active"}
-                          </span>
-                        </td>
-                        <td>{user.phoneNumber}</td>
-                        <td>{user.email}</td>
-                        <td>
-                          <div className="dropdown">
-                            <button className="btn border-0" data-bs-toggle="dropdown">
-                              <FontAwesomeIcon icon={faEllipsisVertical} />
-                            </button>
-                            <ul className="dropdown-menu border-0 shadow rounded-4">
-                              <li onClick={() => toggleActivate(user.id)}>
+                    {
+                      totalResults > 0 ?
+                      users.map((user) => (
+                        <tr key={user.id}>
+                          <td>{user.userName}</td>
+                          <td>
+                            <span
+                              className="px-3 py-1 rounded-pill text-white small"
+                              style={{
+                                backgroundColor: user.isActivated ? "#198754" : "#C97A7A",
+                              }}
+                            >
+                              {user.isActivated ? "Active" : "Not Active"}
+                            </span>
+                          </td>
+                          <td>{user.phoneNumber}</td>
+                          <td>{user.email}</td>
+                          <td>
+                            <div className="dropdown">
+                              <button className="btn border-0" data-bs-toggle="dropdown">
+                                <FontAwesomeIcon icon={faEllipsisVertical} />
+                              </button>
+                              <ul className="dropdown-menu border-0 shadow rounded-4">
+                                <li onClick={() => toggleActivate(user.id)}>
+                                  <button className="dropdown-item">
+                                    {user.isActivated ? (
+                                      <>
+                                        <FontAwesomeIcon color="red" icon={faBan} className="me-1"/> Block
+                                      </>
+                                    ) : (
+                                      <>
+                                        <FontAwesomeIcon color="green" icon={faCircleCheck} className="me-1"/> Unblock
+                                      </>
+                                    )}
+                                  </button>
+                                </li>
+                                <li>
                                 <button className="dropdown-item">
-                                  {user.isActivated ? (
-                                    <>
-                                      <FontAwesomeIcon color="red" icon={faBan} className="me-1"/> Block
-                                    </>
-                                  ) : (
-                                    <>
-                                      <FontAwesomeIcon color="green" icon={faCircleCheck} className="me-1"/> Unblock
-                                    </>
-                                  )}
-                                </button>
-                              </li>
-                              <li>
-                               <button className="dropdown-item">
-                                  <FontAwesomeIcon color="green" icon={faEye} className="me-1"/> View
-                                </button>
-                              </li>
-                            </ul>
-                          </div>
+                                    <FontAwesomeIcon color="green" icon={faEye} className="me-1"/> View
+                                  </button>
+                                </li>
+                              </ul>
+                            </div>
+                          </td>
+                        </tr>
+                      )):(
+                      <tr>
+                        <td colSpan={6} className="no-data-row">
+                          <NoData />
                         </td>
                       </tr>
-                    ))}
+                    )}
                   </tbody>
                 </Table>
               )}
-              <div className="custom-table-footer mt-4 px-3">
+              <div className="custom-table-footer mt-4 px-3" style={{display: totalResults <= 5 ? 'none' : 'block'}}>
                 <div className="d-flex justify-content-center justify-content-md-end align-items-center flex-wrap gap-2">
                   <span>Showing</span>
                   <select
