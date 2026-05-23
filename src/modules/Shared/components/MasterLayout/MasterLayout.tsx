@@ -5,7 +5,7 @@ import NavBar from "../NavBar/NavBar";
 
 export default function MasterLayout() {
   return <>
-  <div className="h-100">
+  {/* <div className="h-100">
 
      <NavBar/>
 
@@ -16,6 +16,23 @@ export default function MasterLayout() {
       <div className="w-100">
         <Outlet/>
       </div>
+
+     </div>
+  </div> */}
+
+  <div className="h-100">
+
+     <NavBar/>
+
+     <div className="d-flex">
+
+      <div className="">
+        <SideBar/>
+      </div>
+
+      <main className="w-100">
+        <Outlet/>
+      </main>
 
      </div>
   </div>

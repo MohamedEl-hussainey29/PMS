@@ -74,6 +74,7 @@ height: 100vh;
 background-color: #0E382F;
 color: white;
 transition: all;
+
 }
 .sidebar-container .ps-menu-button:hover{
     background-color: #EF9B284D !important;
