@@ -5,15 +5,19 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { getTasksCount } from "../../../../api/modules/tasks";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { getUsersCount } from "../../../../api/modules/users";
-import { toast } from "react-toastify";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
+import { AuthContext } from "../../../../context/AuthContext";
+import { toast } from "react-toastify";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 export default function Banner() {
+  const authContext = useContext(AuthContext);
+  const isAdmin = authContext?.userData?.userGroup === "Manager";
+
   //tasks
   const [tasksCount, setTasksCount] = useState({
     done: 0,
@@ -76,7 +80,7 @@ export default function Banner() {
         done: response.data.done,
       });
     } catch (error) {
-      console.log(error);
+      toast.error('failed to fetch tasks')
     }
   };
 
@@ -85,7 +89,6 @@ export default function Banner() {
   const getUsers = async () => {
     try {
       const response = await getUsersCount();
-      console.log(response);
       setUsersCount({
         activatedEmployeeCount: response.data.activatedEmployeeCount,
         deactivatedEmployeeCount: response.data.deactivatedEmployeeCount,
@@ -97,14 +100,17 @@ export default function Banner() {
 
   useEffect(() => {
     getTasks();
-    getUsers();
+    
+    if(isAdmin){
+      getUsers();
+    }
   }, []);
 
   return (
     <>
       <div className="banner bg-white position-relative mt-3">
         <div className="row">
-          <div className="col-md-6">
+          <div className={isAdmin ? 'col-md-6' : 'col-md-12'}>
             <div className="inner-banner bg-white rounded rounded-4 shadow p-4">
               <div className="banner-title">
                 <h4>Tasks</h4>
@@ -114,8 +120,8 @@ export default function Banner() {
               </div>
 
               <div className="d-flex mt-3">
-                <div className="col-md-6">
-                  <div className="col-md-6">
+                <div className="col-md-7">
+                  <div className="col-md-4">
                     <div
                       className="inner py-3 px-4 rounded rounded-4"
                       style={{ backgroundColor: "#F4F4E5" }}
@@ -145,7 +151,7 @@ export default function Banner() {
                     </div>
                   </div>
 
-                  <div className="col-md-6 my-1">
+                  <div className="col-md-4 my-1">
                     <div
                       className="inner py-3 px-4 rounded rounded-4"
                       style={{ backgroundColor: "#E5E6F4" }}
@@ -177,7 +183,7 @@ export default function Banner() {
                     </div>
                   </div>
 
-                  <div className="col-md-6">
+                  <div className="col-md-4">
                     <div
                       className="inner py-3 px-4 rounded rounded-4"
                       style={{ backgroundColor: "#F4E5ED" }}
@@ -208,8 +214,8 @@ export default function Banner() {
                 </div>
 
                 <div
-                  style={{ width: "300px", height: "300px" }}
-                  className="chart col-md-6 d-flex align-items-center justify-content-center mt-5 pe-5"
+                  style={isAdmin ? { width: "300px", height: "300px" } : { width: "450px", height: "450px" }}
+                  className="chart col-md-5 d-flex align-items-center justify-content-center pe-5"
                 >
                   <Doughnut data={tasksData} />
                 </div>
@@ -217,8 +223,9 @@ export default function Banner() {
             </div>
           </div>
 
+         {isAdmin ? 
           <div className="col-md-6" >
-            <div className="inner-banner bg-white rounded rounded-4 shadow p-4">
+            <div className="inner-banner bg-white rounded rounded-4 shadow p-4"  style={{height: '525px'}}>
               <div className="banner-title">
                 <h4>Users</h4>
                 <p style={{ color: "#6F7881" }}>
@@ -291,13 +298,13 @@ export default function Banner() {
 
              </div>
              
-                <div  style={{ width: "300px", height: "300px" }}
-                  className="users-chart col-md-6 d-flex align-items-center justify-content-center mt-5 pe-5">
+                <div style={{ width: "300px", height: "300px" }}
+                  className="users-chart col-md-6 d-flex align-items-center justify-content-center pe-5">
                     <Doughnut data={usersData}/>
                 </div>
               </div>
             </div>
-          </div>
+          </div> : ''}
 
         </div>
       </div>

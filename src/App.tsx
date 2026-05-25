@@ -46,13 +46,13 @@ function App() {
         children:[
           {index:true , element : <Dashboard/>},
           {path:"projects" , element:<ProjectsList/>} ,
-          {path:"project-data" , element:<ProjectData/>} ,
-          {path:"project-data/:projectId" , element:<ProjectData/>} ,
-          {path:"tasks" , element:<TasksList/>} ,
-          {path:"task-data" , element:<TaskData/>} ,
-          {path:"task-data/:taskId" , element:<TaskData/>} ,
-          {path:"user-tasks" , element:<UserTasks/>} ,
-          {path:"users" , element:<UsersList/>} ,
+          {path:"project-data" , element:<ProtectedRoute role={'Manager'}><ProjectData/></ProtectedRoute>} ,
+          {path:"project-data/:projectId" , element:<ProtectedRoute role={'Manager'}><ProjectData/></ProtectedRoute>} ,
+          {path:"tasks" , element:<ProtectedRoute role={'Manager'}><TasksList/></ProtectedRoute>} ,
+          {path:"task-data" , element:<ProtectedRoute role={'Manager'}><TaskData/></ProtectedRoute>} ,
+          {path:"task-data/:taskId" , element:<ProtectedRoute role={'Manager'}><TaskData/></ProtectedRoute>} ,
+          {path:"user-tasks" , element:<ProtectedRoute role={'Employee'}><UserTasks/></ProtectedRoute>} ,
+          {path:"users" , element:<ProtectedRoute role={'Manager'}><UsersList/></ProtectedRoute>} ,
           
         ]
 
