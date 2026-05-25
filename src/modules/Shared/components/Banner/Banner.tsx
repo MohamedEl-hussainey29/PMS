@@ -16,7 +16,7 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 export default function Banner() {
   const authContext = useContext(AuthContext);
-  const isAdmin = authContext?.userData?.userGroup != "Employee";
+  const isAdmin = authContext?.userData?.userGroup === "Manager";
 
   //tasks
   const [tasksCount, setTasksCount] = useState({
