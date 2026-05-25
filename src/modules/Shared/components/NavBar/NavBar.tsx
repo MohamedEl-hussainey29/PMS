@@ -4,57 +4,71 @@ import Navbar from "react-bootstrap/Navbar";
 import navbarLogo from "../../../../assets/navbarLogo.png";
 import PersonalImg from "../../../../assets/personalImg.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleDown, faBell } from "@fortawesome/free-solid-svg-icons";
+import { faAngleDown, faBell, faGlobe, faMobileScreen, faUserShield } from "@fortawesome/free-solid-svg-icons";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../../../context/AuthContext";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
+import { faIdBadge } from "@fortawesome/free-regular-svg-icons";
+import { useNavigate } from "react-router-dom";
+import ThemeButton from "../../ThemeButton/ThemeButton";
 
 
 
 export default function NavBar() {
+  const navigate = useNavigate();
   const { userData } = useContext(AuthContext)!;
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-
-
   return (
     <>
       {/* modal */}
      
-      <Modal show={show} onHide={handleClose} centered size="lg">
-        
+      <Modal show={show} onHide={handleClose} centered >
         <Modal.Body className="py-5 px-3">
-          <div className="row">
-            <div className="col-md-4">
-              <div className="inner d-flex align-items-center justify-content-center">
+          
+              <div className="col-4 text-center w-100">
                 <img
                   src={userData?.imagePath || PersonalImg}
-                  className="w-75 h-25 rounded rounded-3 "
+                  className="w-25 h-25 rounded rounded-pill "
                   alt="personal image"
                   style={{ width: "300px", height: "200px", objectFit: "cover" }}
                 />
+                 <span className=" info mt-2" > {userData?.userName} </span> 
+                <span className="info"> {userData?.userEmail}</span>
               </div>
-            </div>
+ 
+            <div className=" mt-4 ">
+              <div className="divider " style={{width: '100%', height: '1px', backgroundColor: '#eeecec'}}></div>
+              <span className=" info mt-2 " > <FontAwesomeIcon className="profile-info" icon={faUserShield} />  {userData?.userGroup} </span>
 
-            <div className="col-md-8 mt-4 py-5">
-              <span className=" info" > <span className="profile-info"> UserName : </span> {userData?.userName} </span>
-              <span className=" info py-1" ><span className="profile-info"> UserRole : </span>  {userData?.userGroup} </span>
-              <span className="info"> <span className="profile-info"> Email : </span> {userData?.userEmail}</span>
-              <span className=" info py-1"><span className="profile-info"> UserId : </span> {userData?.userId}</span>
-              <span className="  info"><span className="profile-info"> Country : </span> {userData?.country} </span>
-              <span className="info pt-1"><span className="profile-info"> Phone Number : </span> {userData?.phoneNumber} </span>
+              <div className="divider my-2" style={{width: '100%', height: '1px', backgroundColor: '#eeecec'}}></div>
+              <span className=" info"> <FontAwesomeIcon className="profile-info" icon={faIdBadge} /> {userData?.userId}</span>
+
+              <div className="divider my-2" style={{width: '100%', height: '1px', backgroundColor: '#eeecec'}}></div>
+              <span className="  info"> <FontAwesomeIcon className="profile-info" icon={faGlobe} /> {userData?.country} </span>
+
+              <div className="divider my-2 " style={{width: '100%', height: '1px', backgroundColor: '#eeecec'}}></div>
+              <span className="info"> <FontAwesomeIcon className="profile-info" icon={faMobileScreen} /> {userData?.phoneNumber} </span>
+
+              <div className="divider my-2" style={{width: '100%', height: '1px', backgroundColor: '#eeecec'}}></div>
 
             </div>
-          </div>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+         
+       <div className="mt-4 text-end">
+          <Button className="me-3 btn border-0" style={{backgroundColor: '#EF9B28'}} onClick={() => navigate('/change-pass')} >
+            Change Password
+          </Button>
+         <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-        </Modal.Footer>
+       </div>
+        </Modal.Body>
+        
+          
+        
       </Modal>
 
       <Navbar expand="lg" className="bg-body-tertiary">
