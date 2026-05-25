@@ -46,7 +46,6 @@ export default function AuthContextProvider({
       try {
         const decodedToken = jwtDecode<User>(encodedToken);
       const response = await getCurrentUser();
-      console.log("CURRENT USER =>", response.data);
       const currentUser = response.data;
       setUserData({
         ...decodedToken,

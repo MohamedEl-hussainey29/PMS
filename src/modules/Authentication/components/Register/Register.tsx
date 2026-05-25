@@ -55,14 +55,9 @@ export default function Register() {
   const onSubmit = async (data: registerFormValues) => {
     const formData = appendToFormData(data);
 
-    for (const pair of formData.entries()) {
-      console.log(pair[0], pair[1]);
-    }
     setIsLoading(true);
     try {
       const response = await AuthAPI.Register(formData);
-      console.log(response.data);
-
       toast.success(response.data.message);
       navigate("/verify-account");
     } catch (error) {

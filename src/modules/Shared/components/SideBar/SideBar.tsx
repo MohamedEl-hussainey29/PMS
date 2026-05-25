@@ -35,6 +35,8 @@ export default function SideBar() {
     setIsCollapsed(!isCollapsed);
   };
 
+  const isAdmin = authContext?.userData?.userGroup != 'Employee';
+ 
   return (
     <>
     {/* modal */}
@@ -66,7 +68,7 @@ export default function SideBar() {
               button: {
                 [`&.active`]: {
                   backgroundColor: "transparent",
-                  color: "#EF9B28",
+                  color: "var(--primary-color)",
                 },
               },
             }}
@@ -78,13 +80,15 @@ export default function SideBar() {
               {" "}
               Home{" "}
             </MenuItem>
-            <MenuItem
+
+           {isAdmin ? <MenuItem
               icon={<FontAwesomeIcon icon={faUsers} />}
               component={<NavLink to="/dashboard/users" />}
             >
               {" "}
               Users{" "}
-            </MenuItem>
+            </MenuItem> : ''}
+
             <MenuItem
               icon={<FontAwesomeIcon icon={faDiagramProject} />}
               component={<NavLink to="/dashboard/projects" />}
@@ -114,11 +118,11 @@ export default function SideBar() {
             onClick={() => {
               toggleCollapsed();
             }}
-            className="d-flex align-items-center justify-content-center "
+            className="d-flex align-items-center justify-content-center pointer "
             style={{
               height: "32px",
               width: "16px",
-              backgroundColor: "#EF9B28",
+              backgroundColor: "var(--primary-color)",
               position: "absolute",
               right: "-15px",
               top: "15px",
@@ -134,11 +138,11 @@ export default function SideBar() {
             onClick={() => {
               toggleCollapsed();
             }}
-            className="d-flex align-items-center justify-content-center "
+            className="d-flex align-items-center justify-content-center pointer "
             style={{
               height: "32px",
               width: "16px",
-              backgroundColor: "#EF9B28",
+              backgroundColor: "var(--primary-color)",
               position: "absolute",
               right: "1px",
               top: "15px",

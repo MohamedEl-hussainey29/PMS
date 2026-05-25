@@ -20,17 +20,17 @@ export default function MasterLayout() {
      </div>
   </div> */}
 
-  <div className="h-100">
+  <div className="">
 
      <NavBar/>
 
-     <div className="d-flex">
+     <div className="d-flex overflow-hidden" style={{height : 'calc(100vh - 70px)'}}>
 
-      <div className="">
+      <div style={{height: '100%', flexShrink: 0}}>
         <SideBar/>
       </div>
 
-      <main className="w-100">
+      <main className="flex-grow-1 overflow-auto">
         <Outlet/>
       </main>
 
