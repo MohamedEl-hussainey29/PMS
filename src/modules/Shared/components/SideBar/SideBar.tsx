@@ -35,8 +35,8 @@ export default function SideBar() {
     setIsCollapsed(!isCollapsed);
   };
 
-  const isAdmin = authContext?.userData?.userGroup != 'Employee';
- 
+  const isAdmin = authContext?.userData?.userGroup === 'Manager';
+  
   return (
     <>
     {/* modal */}
@@ -98,7 +98,7 @@ export default function SideBar() {
             </MenuItem>
             <MenuItem
               icon={<FontAwesomeIcon icon={faListCheck} />}
-              component={<NavLink to="/dashboard/tasks" />}
+              component={<NavLink to={isAdmin ? "/dashboard/tasks" : "/dashboard/user-tasks"} />}
             >
               {" "}
               Tasks{" "}
