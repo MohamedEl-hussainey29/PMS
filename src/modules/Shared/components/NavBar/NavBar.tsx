@@ -105,7 +105,7 @@ export default function NavBar() {
               </div>
 
               <div
-                className="divider mx-3"
+                className="divider mx-3 d-none d-md-block"
                 style={{
                   width: "1px",
                   height: "40px",

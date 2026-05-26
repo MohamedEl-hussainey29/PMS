@@ -21,7 +21,7 @@ export default function MasterLayout() {
             <SideBar/>
           </div>
 
-          <main className="flex-grow-1 overflow-auto">
+          <main className="flex-grow-1 overflow-auto" >
             {isLoading? <Spinner/> : <Outlet/>}
           </main>
 
