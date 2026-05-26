@@ -11,7 +11,6 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { faIdBadge } from "@fortawesome/free-regular-svg-icons";
 import { useNavigate } from "react-router-dom";
-import ThemeButton from "../../ThemeButton/ThemeButton";
 
 
 
@@ -71,7 +70,7 @@ export default function NavBar() {
         
       </Modal>
 
-      <Navbar expand="lg" className="bg-body-tertiary">
+      <Navbar expand="lg" className="bg-body-tertiary border-bottom">
         <Container fluid>
           <Navbar.Brand href="/dashboard">
             <img src={navbarLogo} alt="navbar logo" />

@@ -97,165 +97,165 @@ const { data: paginationWrapper, isLoading, refetch } = useGetData<PaginatedResp
       }
   }
   return (
-    <>
-      <div className="container-fluid">
-        <div className="row">
-          <div className="users-list-header d-flex justify-content-between align-items-center p-4">
-            <h3 style={{ color: "#0E382F" }}>Tasks</h3>
-            <button 
-              className="btn rounded-pill py-2 px-4 text-white" 
-              style={{backgroundColor:'#EF9B28'}}
-              onClick={()=>navigate("/dashboard/task-data")}
+    <div className="d-flex flex-column h-100">
+      {/* Page Header */}
+      <div className="users-list-header d-flex justify-content-between align-items-center p-4 flex-shrink-0">
+        <h3 style={{ color: "#0E382F" }}>Tasks</h3>
+        <button
+          className="btn rounded-pill py-2 px-4 text-white"
+          style={{ backgroundColor: "#EF9B28" }}
+          onClick={() => navigate("/dashboard/task-data")}
+        >
+          <FontAwesomeIcon icon={faPlus} /> Add New Task
+        </button>
+      </div>
+      {/* Main Content */}
+      <div className="flex-grow-1 overflow-hidden py-3 px-4" style={{ backgroundColor: "#F5F5F5" }}>
+        <div className="bg-white rounded-3 py-4 px-0 shadow-sm d-flex flex-column h-100">
+          {/* Search & Filter */}
+          <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3 mb-4 px-4 flex-shrink-0">
+            <div className="d-flex flex-column flex-sm-row gap-3 w-100 w-md-auto">
+              <div
+                className="d-flex align-items-center px-3 rounded-pill"
+                style={{
+                  border: "1px solid #D9D9D9",
+                  width: "100%",
+                  maxWidth: "320px",
+                  height: "45px",
+                }}
               >
-                <FontAwesomeIcon icon={faPlus} /> Add New Task
-            </button>
-          </div>
-          <div
-            className="container-fluid py-4 px-4"
-            style={{ backgroundColor: "#F5F5F5", minHeight: "100vh" }}
-          >
-            <div className="bg-white rounded-3 py-4 px-0 shadow-sm">
-              {/* Header Elements */}
-              <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3 mb-4 px-4">
-                <div className="d-flex flex-column flex-sm-row gap-3 w-100 w-md-auto">
-                  <div
-                    className="d-flex align-items-center px-3 rounded-pill"
-                    style={{
-                      border: "1px solid #D9D9D9",
-                      width: "100%",
-                      maxWidth: "320px",
-                      height: "45px",
-                    }}
-                  >
-                    <i className="fa-solid fa-magnifying-glass text-secondary"></i>
-                    <input
-                      type="text"
-                      placeholder="Search "
-                      className="border-0 ms-2 w-100"
-                      style={{ outline: "none" }}
-                    />
-                  </div>
-                  <button
-                    className="btn rounded-pill px-4"
-                    style={{ border: "1px solid #D9D9D9", height: "45px" }}
-                  >
-                    <FontAwesomeIcon icon={faFilter} className="me-2" />
-                    Filter
-                  </button>
-                </div>
+                <i className="fa-solid fa-magnifying-glass text-secondary"></i>
+                <input type="text" placeholder="Search" className="border-0 ms-2 w-100" style={{ outline: "none" }}/>
               </div>
-              <DeleteConfirmation show={show} handleClose={handleClose} onDelete={deleteTask} item='Task' itemData={taskData}/>
-              {/* Table Loader and Core Layout */}
-              {isLoading ? (
-                <Spinner/>
-              ) : (
-                <Table striped hover className="align-middle custom-table custom-table">
-                  <thead>
-                    <tr>
-                      <th>Title</th>
-                      <th>Status</th>
-                      <th>User</th>
-                      <th>Project</th>
-                      <th>Date Created</th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {
-                      totalResults > 0 ?
-                      tasks.map((task) => (
-                        <tr key={task?.id}>
-                          <td>{task?.title}</td>
-                          <td>
-                            <span
-                              className="px-3 py-1 rounded-pill text-white small"
-                              style={{
-                                backgroundColor: task?.status == 'ToDo' ? "#E4E1F5"
-                                : task?.status == 'InProgress' ? "#EF9B28A3": "#009247"
-                              }}
-                            >
-                              {task?.status}
-                            </span>
-                          </td>
-                          <td>{task?.employee.userName}</td>
-                          <td>{task?.project.title}</td>
-                          <td>{task?.creationDate}</td>
-                          <td>
-                            <div className="dropdown">
-                              <button className="btn border-0" data-bs-toggle="dropdown">
-                                <FontAwesomeIcon icon={faEllipsisVertical} />
-                              </button>
-                              <ul className="dropdown-menu border-0 shadow rounded-4">
-                                <li>
+              <button
+                className="btn rounded-pill px-4"
+                style={{border: "1px solid #D9D9D9",height: "45px"}}>
+                <FontAwesomeIcon icon={faFilter} className="me-2"/>Filter
+              </button>
+            </div>
+          </div>
+          <DeleteConfirmation show={show} handleClose={handleClose} onDelete={deleteTask} item="Task" itemData={taskData}/>
+          {/* Table */}
+          {isLoading ? (
+            <Spinner />
+          ) : (
+            <div
+              style={{overflowY: "auto",flex: 1}}>
+              <Table striped hover className="align-middle custom-table mb-0">
+                <thead
+                  style={{position: "sticky",top: 0,backgroundColor: "#fff",zIndex: 1,}}>
+                  <tr>
+                    <th>Title</th>
+                    <th>Status</th>
+                    <th>User</th>
+                    <th>Project</th>
+                    <th>Date Created</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {totalResults > 0 ? (
+                    tasks.map((task) => (
+                      <tr key={task?.id}>
+                        <td>{task?.title}</td>
+                        <td>
+                          <span
+                            className="px-3 py-1 rounded-pill text-white small"
+                            style={{
+                              backgroundColor:
+                                task?.status == "ToDo"
+                                  ? "#E4E1F5"
+                                  : task?.status == "InProgress"
+                                  ? "#EF9B28A3"
+                                  : "#009247",
+                            }}
+                          >
+                            {task?.status}
+                          </span>
+                        </td>
+                        <td>{task?.employee.userName}</td>
+                        <td>{task?.project.title}</td>
+                        <td>{task?.creationDate}</td>
+                        <td>
+                          <div className="dropdown">
+                            <button className="btn border-0" data-bs-toggle="dropdown">
+                              <FontAwesomeIcon icon={faEllipsisVertical} />
+                            </button>
+                            <ul className="dropdown-menu border-0 shadow rounded-4">
+                              <li>
                                 <button className="dropdown-item">
-                                    <FontAwesomeIcon color="green" icon={faEye} className="me-1"/> View
-                                  </button>
-                                </li>
-                                <li>
-                                <button className="dropdown-item" onClick={()=>navigate(`/dashboard/task-data/${task.id}`)}>
-                                    <FontAwesomeIcon color="green" icon={faEdit} className="me-1"/> Edit
-                                  </button>
-                                </li>
-                                <li>
-                                  <button className="dropdown-item" onClick={()=>handleShow(task)}>
-                                    <FontAwesomeIcon color="green" icon={faTrashCan} className="me-1"/> Delete
-                                  </button>
-                                </li>
-                              </ul>
-                            </div>
-                          </td>
-                        </tr>
-                      )):(
-                      <tr>
-                        <td colSpan={6} className="no-data-row">
-                          <NoData />
+                                  <FontAwesomeIcon color="green" icon={faEye} className="me-1"/>View
+                                </button>
+                              </li>
+                              <li>
+                                <button className="dropdown-item" onClick={() => navigate(`/dashboard/task-data/${task.id}`)}>
+                                  <FontAwesomeIcon color="green" icon={faEdit} className="me-1"/>Edit
+                                </button>
+                              </li>
+                              <li>
+                                <button className="dropdown-item" onClick={() => handleShow(task)}>
+                                  <FontAwesomeIcon color="green" icon={faTrashCan} className="me-1"/>Delete
+                                </button>
+                              </li>
+                            </ul>
+                          </div>
                         </td>
                       </tr>
-                    )}
-                  </tbody>
-                </Table>
-              )}
-              <div className="custom-table-footer mt-4 px-3" style={{display: totalResults <= 5 ? 'none' : 'block'}}>
-                <div className="d-flex justify-content-center justify-content-md-end align-items-center flex-wrap gap-2">
-                  <span>Showing</span>
-                  <select
-                    className="form-select rounded-pill"
-                    style={{ width: "85px" }}
-                    value={pageSize}
-                    onChange={handlePageSizeChange}
-                  >
-                    <option value={5}>5</option>
-                    <option value={10}>10</option>
-                    <option value={20}>20</option>
-                  </select>
-                  <span>of {totalResults} Results</span>
-                  <span>
-                    Page {currentPage} of {totalPages}
-                  </span>
-                  <div className="d-flex align-items-center gap-2">
-                    <button
-                      className="btn border-0 p-1"
-                      onClick={handlePrevPage}
-                      disabled={currentPage === 1}
-                      style={{ opacity: currentPage === 1 ? 0.4 : 1 }}
-                    >
-                      <FontAwesomeIcon icon={faChevronLeft} />
-                    </button>
-                    <button
-                      className="btn border-0 p-1"
-                      onClick={handleNextPage}
-                      disabled={currentPage >= totalPages}
-                      style={{ opacity: currentPage >= totalPages ? 0.4 : 1 }}
-                    >
-                      <FontAwesomeIcon icon={faChevronRight} />
-                    </button>
-                  </div>
-                </div>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan={6} className="no-data-row">
+                        <NoData />
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </Table>
+            </div>
+          )}
+          {/* Pagination */}
+          <div
+            className="custom-table-footer mt-4 px-3 flex-shrink-0"
+            style={{display:totalResults <= 5? "none": "block",}}>
+            <div className="d-flex justify-content-center justify-content-md-end align-items-center flex-wrap gap-2">
+              <span>Showing</span>
+              <select
+                className="form-select rounded-pill"
+                style={{ width: "85px" }}
+                value={pageSize}
+                onChange={handlePageSizeChange}
+              >
+                <option value={5}>5</option>
+                <option value={10}>10</option>
+                <option value={20}>20</option>
+              </select>
+              <span>
+                of {totalResults} Results
+              </span>
+              <span>
+                Page {currentPage} of {totalPages}
+              </span>
+              <div className="d-flex align-items-center gap-2">
+                <button
+                  className="btn border-0 p-1"
+                  onClick={handlePrevPage}
+                  disabled={currentPage === 1}
+                  style={{
+                    opacity: currentPage === 1 ? 0.4 : 1}}>
+                  <FontAwesomeIcon icon={faChevronLeft} />
+                </button>
+                <button
+                  className="btn border-0 p-1"
+                  onClick={handleNextPage}
+                  disabled={currentPage >= totalPages}
+                  style={{opacity: currentPage >= totalPages? 0.4: 1,}}>
+                  <FontAwesomeIcon icon={faChevronRight} />
+                </button>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
