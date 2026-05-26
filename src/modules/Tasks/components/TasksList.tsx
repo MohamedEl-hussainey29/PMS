@@ -18,6 +18,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import DeleteConfirmation from "../../Shared/components/DeleteConfirmation/DeleteConfirmation";
 import NoData from "../../Shared/components/NoData/NoData";
+import Spinner from "../../Shared/components/Spinner/Spinner";
 
 interface Task {
   id: number;
@@ -32,7 +33,7 @@ interface Task {
   }
 }
 
-interface PaginatedResponse {
+export interface PaginatedResponse {
   pageNumber: number;
   pageSize: number;
   data: Task[];
@@ -56,8 +57,8 @@ export default function TasksList() {
   }
 
   const fetchTasks = useCallback(() => {
-  return TasksAPI.GetTasksByManager({ page: currentPage, size: pageSize });
-}, [currentPage, pageSize]);
+    return TasksAPI.GetTasksByManager({ page: currentPage, size: pageSize });
+  }, [currentPage, pageSize]);
 
 const { data: paginationWrapper, isLoading, refetch } = useGetData<PaginatedResponse>(
   fetchTasks, 
@@ -146,14 +147,7 @@ const { data: paginationWrapper, isLoading, refetch } = useGetData<PaginatedResp
               <DeleteConfirmation show={show} handleClose={handleClose} onDelete={deleteTask} item='Task' itemData={taskData}/>
               {/* Table Loader and Core Layout */}
               {isLoading ? (
-                <div
-                  className="d-flex justify-content-center align-items-center"
-                  style={{ minHeight: "500px" }}
-                >
-                  <div className="spinner-border text-warning" role="status">
-                    <span className="visually-hidden">Loading...</span>
-                  </div>
-                </div>
+                <Spinner/>
               ) : (
                 <Table striped hover className="align-middle custom-table custom-table">
                   <thead>

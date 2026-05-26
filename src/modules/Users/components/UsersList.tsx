@@ -13,6 +13,7 @@ import { faCircleCheck } from "@fortawesome/free-regular-svg-icons";
 import useGetData from "../../../hooks/useGetData";
 import { UsersAPI } from "../../../api";
 import NoData from "../../Shared/components/NoData/NoData";
+import Spinner from "../../Shared/components/Spinner/Spinner";
 
 interface User {
   id: number;
@@ -113,14 +114,7 @@ const { data: paginationWrapper, isLoading, refetch } = useGetData<PaginatedResp
 
               {/* Table Loader and Core Layout */}
               {isLoading ? (
-                <div
-                  className="d-flex justify-content-center align-items-center"
-                  style={{ minHeight: "500px" }}
-                >
-                  <div className="spinner-border text-warning" role="status">
-                    <span className="visually-hidden">Loading...</span>
-                  </div>
-                </div>
+                <Spinner/>
               ) : (
                 <Table striped hover className="align-middle custom-table custom-table">
                   <thead>

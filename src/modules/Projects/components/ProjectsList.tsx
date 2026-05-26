@@ -19,6 +19,7 @@ import axios from "axios";
 import DeleteConfirmation from "../../Shared/components/DeleteConfirmation/DeleteConfirmation";
 import { AuthContext } from "../../../context/AuthContext";
 import NoData from "../../Shared/components/NoData/NoData";
+import Spinner from "../../Shared/components/Spinner/Spinner";
 
 interface Task {
   id: number;
@@ -65,10 +66,10 @@ export default function ProjectsList() {
       ProjectsAPI.GetProjectsByManager({ page: currentPage, size: pageSize });
   }, [currentPage, pageSize , userRole]);
 
-const { data: paginationWrapper, isLoading, refetch } = useGetData<PaginatedResponse>(
-  fetchProjects, 
-  [currentPage, pageSize]
-);
+  const { data: paginationWrapper, isLoading, refetch } = useGetData<PaginatedResponse>(
+    fetchProjects, 
+    [currentPage, pageSize]
+  );
 
   const projects = paginationWrapper?.data || [];
   const totalResults = paginationWrapper?.totalNumberOfRecords || 0;
@@ -152,14 +153,7 @@ const { data: paginationWrapper, isLoading, refetch } = useGetData<PaginatedResp
               <DeleteConfirmation show={show} handleClose={handleClose} onDelete={deleteProject} item='Project' itemData={projectData}/>
               {/* Table Loader and Core Layout */}
               {isLoading ? (
-                <div
-                  className="d-flex justify-content-center align-items-center"
-                  style={{ minHeight: "500px" }}
-                >
-                  <div className="spinner-border text-warning" role="status">
-                    <span className="visually-hidden">Loading...</span>
-                  </div>
-                </div>
+                <Spinner/>
               ) : (
                 <Table striped hover className="align-middle custom-table custom-table">
                   <thead>

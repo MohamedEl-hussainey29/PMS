@@ -1,10 +1,13 @@
-
 import type { TasksFormValues } from "../../modules/Tasks/components/TaskData";
 import axiosClient from "../axiosClient";
 
 interface PaginationParams {
   page: number;
   size: number;
+}
+
+export interface ChangeTaskStatus {
+  status: string;
 }
 
 export const CreateTask = (data:TasksFormValues)=>{
@@ -23,6 +26,19 @@ export const GetTasksByManager = (params?: PaginationParams) => {
     }
   });
 };
+
+export const GetTasksByEmployee = (params?: PaginationParams) => {
+  return axiosClient.get('/task', {
+    params: {
+      pageNumber: params?.page, 
+      pageSize: params?.size    
+    }
+  });
+};
+
+export const ChangeTaskStatus = (id:number,data:ChangeTaskStatus)=>{
+    return axiosClient.put(`/task/${id}/change-status`,data);
+}
 
 export const UpdateTask = (id:number,data:TasksFormValues)=>{
     return axiosClient.put(`/task/${id}`,data);

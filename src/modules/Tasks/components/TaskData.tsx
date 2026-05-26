@@ -8,6 +8,7 @@ import { ProjectsAPI, TasksAPI, UsersAPI } from "../../../api";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import axios from "axios";
+import Spinner from "../../Shared/components/Spinner/Spinner";
 
 interface User {
   id: number;
@@ -31,6 +32,7 @@ export default function TaskData() {
   const [isUserOpen, setIsUserOpen] = useState(false);
   const [isProjOpen, setIsProjOpen] = useState(false);
   const [isLoadingTask, setIsLoadingTask] = useState(!!taskId);
+  const [submitLoading , setSubmitLoading] = useState(false);
   const [taskEmployee, setTaskEmployee] = useState<User | null>(null);
   const [taskProject, setTaskProject] = useState<Project | null>(null);
   const {register, formState:{errors}, handleSubmit , setValue} = useForm<TasksFormValues>();
@@ -82,6 +84,7 @@ useEffect(() => {
       : projects;
 
   const onSubmit = async (data: TasksFormValues) => {
+    setSubmitLoading(true)
     try {
       if (taskId) {
         await TasksAPI.UpdateTask(Number(taskId), data);
@@ -97,6 +100,8 @@ useEffect(() => {
       } else {
         toast.error("Something went wrong");
       }
+    }finally{
+      setSubmitLoading(false)
     }
   };
 
@@ -118,15 +123,7 @@ useEffect(() => {
             <div className="row justify-content-center align-items-center">
               <div className="col-md-10 bg-white my-4 rounded-3">
                 {isLoadingTask ? (
-                  <div
-                    className="d-flex justify-content-center align-items-center"
-                    style={{ minHeight: "500px" }}
-                  >
-                    <div className="spinner-border text-warning" role="status">
-                      <span className="visually-hidden">Loading...</span>
-                    </div>
-                  </div>
-
+                  <Spinner/>
                 ) : (
                 <form onSubmit={handleSubmit(onSubmit)}>
                   <div className="row p-5">
@@ -228,7 +225,17 @@ useEffect(() => {
                       type="submit"
                       className="btn btn-warning text-white rounded-5 px-4 py-2 fs-5"
                     >
-                      Save
+                      {submitLoading ? (
+                          <>
+                            <span
+                              className="spinner-border spinner-border-sm me-2"
+                              role="status"
+                              aria-hidden="true"
+                            ></span> Saving...
+                          </>
+                        ) : (
+                          "Save"
+                        )}
                     </button>
                   </div>
                 </form>
