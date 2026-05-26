@@ -100,38 +100,54 @@ export default function TaskBoard() {
   }
 
   return (
-    <DndContext
-      collisionDetection={closestCorners}
-      onDragEnd={handleDragEnd}
-      sensors={sensors}
+    <>
+      <div className=" p-4 flex-shrink-0">
+      <h3 className="mb-0" style={{ color: "#0E382F" }}>
+        Task Board
+      </h3>
+    </div>
+    <div
+      className="flex-grow-1"
+      style={{
+        backgroundColor: "#eeeeee",
+        minHeight: "100%"
+      }}
     >
-      <div className="container-fluid p-3">
-        <div className="row">
-          <Column
-            title="To Do"
-            status="ToDo"
-            tasks={tasks.filter(
-              (t) => t.status === "ToDo"
-            )}
-          />
+      <DndContext
+        collisionDetection={closestCorners}
+        onDragEnd={handleDragEnd}
+        sensors={sensors}
+      >
+        <div className="container-fluid p-3">
+          <div className="row">
+            <Column
+              title="To Do"
+              status="ToDo"
+              tasks={tasks.filter(
+                (t) => t.status === "ToDo"
+              )}
+            />
 
-          <Column
-            title="In Progress"
-            status="InProgress"
-            tasks={tasks.filter(
-              (t) => t.status === "InProgress"
-            )}
-          />
+            <Column
+              title="In Progress"
+              status="InProgress"
+              tasks={tasks.filter(
+                (t) => t.status === "InProgress"
+              )}
+            />
 
-          <Column
-            title="Done"
-            status="Done"
-            tasks={tasks.filter(
-              (t) => t.status === "Done"
-            )}
-          />
+            <Column
+              title="Done"
+              status="Done"
+              tasks={tasks.filter(
+                (t) => t.status === "Done"
+              )}
+            />
+          </div>
         </div>
-      </div>
-    </DndContext>
+      </DndContext>
+    </div>
+    
+    </>
   );
 }

@@ -104,18 +104,24 @@ export default function ProjectsList() {
     <div className="d-flex flex-column h-100">
 
       {/* Page Header */}
-      <div className="users-list-header d-flex justify-content-between align-items-center p-4 flex-shrink-0">
-        <h3 style={{ color: "#0E382F" }}>Projects</h3>
-        <button
-          className="btn rounded-pill py-2 px-4 text-white"
-          style={{
-            backgroundColor: "#EF9B28",
-            display: userRole == "Employee" ? "none" : "block",
-          }}
-          onClick={() => navigate("/dashboard/project-data")}
-        >
-          <FontAwesomeIcon icon={faPlus} /> Add New Project
-        </button>
+      <div className="users-list-header d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3 p-4 flex-shrink-0">
+        <h3 className="mb-0" style={{ color: "#0E382F" }}>Projects</h3>
+        {userRole !== "Employee" && (
+          <button
+            className="btn rounded-pill py-2 px-4 text-white w-100"
+            style={{
+              backgroundColor: "#EF9B28",
+              maxWidth: window.innerWidth >= 768
+                ? "fit-content"
+                : "100%",
+            }}
+            onClick={() =>
+              navigate("/dashboard/project-data")
+            }
+          >
+            <FontAwesomeIcon icon={faPlus} className="me-2"/> Add New Project
+          </button>
+        )}
       </div>
 
       {/* Main Content */}
@@ -167,73 +173,134 @@ export default function ProjectsList() {
           {isLoading ? (
             <Spinner />
           ) : (
-            <div style={{ overflowY: "auto", flex: 1 }}>
-              <Table striped hover className="align-middle custom-table mb-0">
-                <thead
-                  style={{
-                    position: "sticky",
-                    top: 0,
-                    backgroundColor: "#fff",
-                    zIndex: 1,
-                  }}
-                >
-                  <tr>
-                    <th>Title</th>
-                    <th>Description</th>
-                    <th>Num Tasks</th>
-                    <th>Date Created</th>
-                    <th style={{ display: userRole == "Employee" ? "none" : "" }}></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {totalResults > 0 ? (
-                    projects.map((proj) => (
-                      <tr key={proj?.id}>
-                        <td>{proj?.title}</td>
-                        <td>{proj?.description}</td>
-                        <td>{proj?.task?.length || 0}</td>
-                        <td>{proj?.creationDate}</td>
-                        <td style={{ display: userRole == "Employee" ? "none" : "block" }}>
-                          <div className="dropdown">
-                            <button className="btn border-0" data-bs-toggle="dropdown">
-                              <FontAwesomeIcon icon={faEllipsisVertical} />
-                            </button>
-                            <ul className="dropdown-menu border-0 shadow rounded-4">
-                              <li>
-                                <button className="dropdown-item">
-                                  <FontAwesomeIcon color="green" icon={faEye} className="me-1" /> View
-                                </button>
-                              </li>
-                              <li>
-                                <button
-                                  className="dropdown-item"
-                                  onClick={() => navigate(`/dashboard/project-data/${proj?.id}`)}
-                                >
-                                  <FontAwesomeIcon color="green" icon={faEdit} className="me-1" /> Edit
-                                </button>
-                              </li>
-                              <li>
-                                <button className="dropdown-item" onClick={() => handleShow(proj)}>
-                                  <FontAwesomeIcon color="green" icon={faTrashCan} className="me-1" /> Delete
-                                </button>
-                              </li>
-                            </ul>
-                          </div>
+            <>
+              <div className="d-none d-md-block" style={{ overflowY: "auto", flex: 1 }}>
+                <Table striped hover className="align-middle custom-table mb-0">
+                  <thead
+                    style={{
+                      position: "sticky",
+                      top: 0,
+                      backgroundColor: "#fff",
+                      zIndex: 1,
+                    }}
+                  >
+                    <tr>
+                      <th>Title</th>
+                      <th>Description</th>
+                      <th>Num Tasks</th>
+                      <th>Date Created</th>
+                      <th style={{ display: userRole == "Employee" ? "none" : "" }}></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {totalResults > 0 ? (
+                      projects.map((proj) => (
+                        <tr key={proj?.id}>
+                          <td>{proj?.title}</td>
+                          <td>{proj?.description}</td>
+                          <td>{proj?.task?.length || 0}</td>
+                          <td>{proj?.creationDate}</td>
+                          <td style={{ display: userRole == "Employee" ? "none" : "block" }}>
+                            <div className="dropdown">
+                              <button className="btn border-0" data-bs-toggle="dropdown">
+                                <FontAwesomeIcon icon={faEllipsisVertical} />
+                              </button>
+                              <ul className="dropdown-menu border-0 shadow rounded-4">
+                                <li>
+                                  <button className="dropdown-item">
+                                    <FontAwesomeIcon color="green" icon={faEye} className="me-1" /> View
+                                  </button>
+                                </li>
+                                <li>
+                                  <button
+                                    className="dropdown-item"
+                                    onClick={() => navigate(`/dashboard/project-data/${proj?.id}`)}
+                                  >
+                                    <FontAwesomeIcon color="green" icon={faEdit} className="me-1" /> Edit
+                                  </button>
+                                </li>
+                                <li>
+                                  <button className="dropdown-item" onClick={() => handleShow(proj)}>
+                                    <FontAwesomeIcon color="green" icon={faTrashCan} className="me-1" /> Delete
+                                  </button>
+                                </li>
+                              </ul>
+                            </div>
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan={5} className="no-data-row">
+                          <NoData />
                         </td>
                       </tr>
+                    )}
+                  </tbody>
+                </Table>
+              </div>
+              {/* Grid */}
+              <div className="d-block d-md-none px-3 pb-3" style={{overflowY: "auto",flex: 1,minHeight: 0,}}>
+                <div className="row g-3">
+                  {totalResults > 0 ? (
+                    projects.map((proj) => (
+                      <div key={proj.id} className="col-12">
+                        <div className="border rounded-4 p-3 shadow-sm">
+                          <div className="d-flex justify-content-between align-items-start mb-3">
+                            <h5 className="mb-0 text-success" style={{ color: "#0E382F" }}>{proj.title}</h5>
+                            {userRole !== "Employee" && (
+                              <div className="dropdown">
+                                <button className="btn border-0 p-0" data-bs-toggle="dropdown">
+                                  <FontAwesomeIcon icon={faEllipsisVertical}/>
+                                </button>
+                                <ul className="dropdown-menu border-0 shadow rounded-4">
+                                  <li>
+                                    <button className="dropdown-item">
+                                      <FontAwesomeIcon color="green" icon={faEye} className="me-1"/> View
+                                    </button>
+                                  </li>
+                                  <li>
+                                    <button className="dropdown-item" onClick={() => navigate(`/dashboard/project-data/${proj.id}`)}>
+                                      <FontAwesomeIcon color="green" icon={faEdit} className="me-1"/> Edit
+                                    </button>
+                                  </li>
+                                  <li>
+                                    <button className="dropdown-item" onClick={() =>handleShow(proj)}>
+                                      <FontAwesomeIcon color="green" icon={faTrashCan} className="me-1"/> Delete
+                                    </button>
+                                  </li>
+                                </ul>
+                              </div>
+                            )}
+                          </div>
+                          <div className="mb-2">
+                            <span className="fw-bold">
+                              Description:
+                            </span>{" "}
+                            {proj.description}
+                          </div>
+                          <div className="mb-2">
+                            <span className="fw-bold">
+                              Tasks:
+                            </span>{" "}
+                            {proj.task?.length || 0}
+                          </div>
+                          <div>
+                            <span className="fw-bold">
+                              Created:
+                            </span>{" "}
+                            {proj.creationDate}
+                          </div>
+                        </div>
+                      </div>
                     ))
                   ) : (
-                    <tr>
-                      <td colSpan={5} className="no-data-row">
-                        <NoData />
-                      </td>
-                    </tr>
+                    <NoData />
                   )}
-                </tbody>
-              </Table>
-            </div>
+                </div>
+              </div>
+            </>
           )}
-
           {/* Pagination */}
           <div
             className="custom-table-footer mt-4 px-3 flex-shrink-0"
@@ -273,7 +340,6 @@ export default function ProjectsList() {
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </div>

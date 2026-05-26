@@ -1,15 +1,7 @@
 import React, { useCallback, useState } from "react";
 import Table from "react-bootstrap/Table";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faEllipsisVertical,
-  faChevronLeft,
-  faChevronRight,
-  faFilter,
-  faEye,
-  faPlus,
-  faEdit,
-} from "@fortawesome/free-solid-svg-icons";
+import {faEllipsisVertical,faChevronLeft,faChevronRight,faFilter,faEye,faPlus,faEdit,} from "@fortawesome/free-solid-svg-icons";
 import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
 import useGetData from "../../../hooks/useGetData";
 import { useNavigate } from "react-router-dom";
@@ -25,12 +17,14 @@ interface Task {
   title: string;
   status: string;
   creationDate: string;
-  employee:{
+
+  employee: {
     userName: string;
   };
-  project:{
+
+  project: {
     title: string;
-  }
+  };
 }
 
 export interface PaginatedResponse {
@@ -42,181 +36,275 @@ export interface PaginatedResponse {
 }
 
 export default function TasksList() {
-
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(5);
-  const [taskData , setTaskData] = useState<Task | null>(null);
-
-
+  const [taskData, setTaskData] = useState<Task | null>(null);
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
-  const handleShow = (task:Task) =>{ 
-    setTaskData(task)
+  const handleShow = (task: Task) => {
+    setTaskData(task);
     setShow(true);
-  }
-
+  };
   const fetchTasks = useCallback(() => {
-    return TasksAPI.GetTasksByManager({ page: currentPage, size: pageSize });
+    return TasksAPI.GetTasksByManager({
+      page: currentPage,
+      size: pageSize,
+    });
   }, [currentPage, pageSize]);
 
-const { data: paginationWrapper, isLoading, refetch } = useGetData<PaginatedResponse>(
-  fetchTasks, 
-  [currentPage, pageSize]
-);
+  const {data: paginationWrapper,isLoading,refetch} = useGetData<PaginatedResponse>(fetchTasks, [currentPage, pageSize]);
 
   const tasks = paginationWrapper?.data || [];
   const totalResults = paginationWrapper?.totalNumberOfRecords || 0;
   const totalPages = paginationWrapper?.totalNumberOfPages || 1;
 
   const handlePrevPage = () => {
-    if (currentPage > 1) setCurrentPage((prev) => prev - 1);
+    if (currentPage > 1) {
+      setCurrentPage((prev) => prev - 1);
+    }
   };
 
   const handleNextPage = () => {
-    if (currentPage < totalPages) setCurrentPage((prev) => prev + 1);
+    if (currentPage < totalPages) {
+      setCurrentPage((prev) => prev + 1);
+    }
   };
 
   const handlePageSizeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setPageSize(Number(e.target.value));
-    setCurrentPage(1); 
+
+    setCurrentPage(1);
   };
 
-  const deleteTask = async(taskId: number)=>{
+  const deleteTask = async (taskId: number) => {
     try {
       await TasksAPI.DeleteTaskById(taskId);
       handleClose();
       refetch();
-      toast.success('Task is deleted Successfully!')
+      toast.success("Task is deleted Successfully!");
     } catch (error) {
-        if (axios.isAxiosError(error)) {
-          toast.error(error.response?.data?.message || "Failed to delete task");
-        } else {
-          toast.error("Something went wrong");
-        }
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data?.message || "Failed to delete task");
+      } else {
+        toast.error("Something went wrong");
       }
-  }
+    }
+  };
+
   return (
     <div className="d-flex flex-column h-100">
-      {/* Page Header */}
-      <div className="users-list-header d-flex justify-content-between align-items-center p-4 flex-shrink-0">
-        <h3 style={{ color: "#0E382F" }}>Tasks</h3>
+      {/* PAGE HEADER */}
+
+      <div className="users-list-header d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3 p-4 flex-shrink-0">
+        <h3 className="mb-0" style={{ color: "#0E382F" }}>Tasks</h3>
         <button
-          className="btn rounded-pill py-2 px-4 text-white"
-          style={{ backgroundColor: "#EF9B28" }}
+          className="btn rounded-pill py-2 px-4 text-white w-100"
+          style={{
+            backgroundColor: "#EF9B28",
+            maxWidth: window.innerWidth >= 768 ? "fit-content" : "100%",
+          }}
           onClick={() => navigate("/dashboard/task-data")}
         >
-          <FontAwesomeIcon icon={faPlus} /> Add New Task
+          <FontAwesomeIcon icon={faPlus} className="me-2" />
+          Add New Task
         </button>
       </div>
-      {/* Main Content */}
-      <div className="flex-grow-1 overflow-hidden py-3 px-4" style={{ backgroundColor: "#F5F5F5" }}>
+
+      {/* MAIN CONTENT */}
+      <div
+        className="flex-grow-1 overflow-hidden py-3 px-4"
+        style={{backgroundColor: "#F5F5F5",}}>
         <div className="bg-white rounded-3 py-4 px-0 shadow-sm d-flex flex-column h-100">
-          {/* Search & Filter */}
+          {/* SEARCH & FILTER */}
           <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3 mb-4 px-4 flex-shrink-0">
             <div className="d-flex flex-column flex-sm-row gap-3 w-100 w-md-auto">
               <div
                 className="d-flex align-items-center px-3 rounded-pill"
-                style={{
-                  border: "1px solid #D9D9D9",
-                  width: "100%",
-                  maxWidth: "320px",
-                  height: "45px",
-                }}
-              >
+                style={{border: "1px solid #D9D9D9",width: "100%",maxWidth: "320px",height: "45px",}}>
                 <i className="fa-solid fa-magnifying-glass text-secondary"></i>
-                <input type="text" placeholder="Search" className="border-0 ms-2 w-100" style={{ outline: "none" }}/>
+                <input
+                  type="text"
+                  placeholder="Search"
+                  className="border-0 ms-2 w-100"
+                  style={{
+                    outline: "none",
+                  }}
+                />
               </div>
               <button
                 className="btn rounded-pill px-4"
-                style={{border: "1px solid #D9D9D9",height: "45px"}}>
-                <FontAwesomeIcon icon={faFilter} className="me-2"/>Filter
+                style={{border: "1px solid #D9D9D9",height: "45px",}}>
+                <FontAwesomeIcon icon={faFilter} className="me-2" /> Filter
               </button>
             </div>
           </div>
           <DeleteConfirmation show={show} handleClose={handleClose} onDelete={deleteTask} item="Task" itemData={taskData}/>
-          {/* Table */}
+
+          {/* TABLE / GRID */}
           {isLoading ? (
             <Spinner />
           ) : (
-            <div
-              style={{overflowY: "auto",flex: 1}}>
-              <Table striped hover className="align-middle custom-table mb-0">
-                <thead
-                  style={{position: "sticky",top: 0,backgroundColor: "#fff",zIndex: 1,}}>
-                  <tr>
-                    <th>Title</th>
-                    <th>Status</th>
-                    <th>User</th>
-                    <th>Project</th>
-                    <th>Date Created</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {totalResults > 0 ? (
-                    tasks.map((task) => (
-                      <tr key={task?.id}>
-                        <td>{task?.title}</td>
-                        <td>
-                          <span
-                            className="px-3 py-1 rounded-pill text-white small"
-                            style={{
-                              backgroundColor:
-                                task?.status == "ToDo"
-                                  ? "#E4E1F5"
-                                  : task?.status == "InProgress"
-                                  ? "#EF9B28A3"
-                                  : "#009247",
-                            }}
-                          >
-                            {task?.status}
-                          </span>
-                        </td>
-                        <td>{task?.employee.userName}</td>
-                        <td>{task?.project.title}</td>
-                        <td>{task?.creationDate}</td>
-                        <td>
-                          <div className="dropdown">
-                            <button className="btn border-0" data-bs-toggle="dropdown">
-                              <FontAwesomeIcon icon={faEllipsisVertical} />
-                            </button>
-                            <ul className="dropdown-menu border-0 shadow rounded-4">
-                              <li>
-                                <button className="dropdown-item">
-                                  <FontAwesomeIcon color="green" icon={faEye} className="me-1"/>View
-                                </button>
-                              </li>
-                              <li>
-                                <button className="dropdown-item" onClick={() => navigate(`/dashboard/task-data/${task.id}`)}>
-                                  <FontAwesomeIcon color="green" icon={faEdit} className="me-1"/>Edit
-                                </button>
-                              </li>
-                              <li>
-                                <button className="dropdown-item" onClick={() => handleShow(task)}>
-                                  <FontAwesomeIcon color="green" icon={faTrashCan} className="me-1"/>Delete
-                                </button>
-                              </li>
-                            </ul>
-                          </div>
+            <>
+              {/* DESKTOP TABLE */}
+              <div
+                className="d-none d-md-block"
+                style={{overflowY: "auto",flex: 1,}}>
+                <Table striped hover className="align-middle custom-table mb-0">
+                  <thead
+                    style={{position: "sticky",top: 0,backgroundColor: "#fff",zIndex: 1,}}>
+                    <tr>
+                      <th>Title</th>
+                      <th>Status</th>
+                      <th>User</th>
+                      <th>Project</th>
+                      <th>Date Created</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {totalResults > 0 ? (
+                      tasks.map((task) => (
+                        <tr key={task.id}>
+                          <td>{task.title}</td>
+                          <td>
+                            <span
+                              className="px-3 py-1 rounded-pill text-white small"
+                              style={{
+                                backgroundColor:
+                                  task.status === "ToDo"? "#E4E1F5": task.status === "InProgress"
+                                      ? "#EF9B28A3": "#009247",
+                              }}
+                            >
+                              {task.status}
+                            </span>
+                          </td>
+                          <td>{task.employee.userName}</td>
+                          <td>{task.project.title}</td>
+                          <td>{task.creationDate}</td>
+                          <td>
+                            <div className="dropdown">
+                              <button className="btn border-0" data-bs-toggle="dropdown">
+                                <FontAwesomeIcon icon={faEllipsisVertical} />
+                              </button>
+                              <ul className="dropdown-menu border-0 shadow rounded-4">
+                                <li>
+                                  <button className="dropdown-item">
+                                    <FontAwesomeIcon color="green" icon={faEye} className="me-1" /> View
+                                  </button>
+                                </li>
+                                <li>
+                                  <button
+                                    className="dropdown-item"
+                                    onClick={() => navigate(`/dashboard/task-data/${task.id}`)}
+                                  >
+                                    <FontAwesomeIcon color="green" icon={faEdit} className="me-1" /> Edit
+                                  </button>
+                                </li>
+                                <li>
+                                  <button className="dropdown-item" onClick={() => handleShow(task)}>
+                                    <FontAwesomeIcon color="green" icon={faTrashCan} className="me-1" /> Delete
+                                  </button>
+                                </li>
+                              </ul>
+                            </div>
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan={6} className="no-data-row">
+                          <NoData />
                         </td>
                       </tr>
+                    )}
+                  </tbody>
+                </Table>
+              </div>
+
+              {/* MOBILE GRID */}
+              <div
+                className="d-block d-md-none px-3 pb-3"
+                style={{
+                  overflowY: "auto",
+                  flex: 1,
+                  minHeight: 0,
+                }}
+              >
+                <div className="row g-3">
+                  {totalResults > 0 ? (
+                    tasks.map((task) => (
+                      <div key={task.id} className="col-12">
+                        <div className="border rounded-4 p-3 shadow-sm">
+                          <div className="d-flex justify-content-between align-items-start mb-3">
+                            <h5 className="mb-0 text-success" style={{color: "#0E382F",}}>
+                              {task.title}
+                            </h5>
+                            <div className="dropdown">
+                              <button className="btn border-0 p-0" data-bs-toggle="dropdown" >
+                                <FontAwesomeIcon icon={faEllipsisVertical} />
+                              </button>
+                              <ul className="dropdown-menu border-0 shadow rounded-4">
+                                <li>
+                                  <button className="dropdown-item">
+                                    <FontAwesomeIcon color="green" icon={faEye} className="me-1" /> View
+                                  </button>
+                                </li>
+                                <li>
+                                  <button
+                                    className="dropdown-item"
+                                    onClick={() =>navigate(`/dashboard/task-data/${task.id}`,)}
+                                  >
+                                    <FontAwesomeIcon color="green" icon={faEdit} className="me-1" /> Edit
+                                  </button>
+                                </li>
+                                <li>
+                                  <button className="dropdown-item" onClick={() => handleShow(task)}>
+                                    <FontAwesomeIcon color="green" icon={faTrashCan} className="me-1" /> Delete
+                                  </button>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                          <div className="mb-2">
+                            <span className="fw-bold">Status:</span>{" "}
+                            <span
+                              className="px-2 py-1 rounded-pill text-white small"
+                              style={{backgroundColor: task.status === "ToDo"? "#E4E1F5": task.status === "InProgress"
+                                      ? "#EF9B28A3" : "#009247",
+                              }}
+                            >
+                              {task.status}
+                            </span>
+                          </div>
+                          <div className="mb-2">
+                            <span className="fw-bold">User:</span>{" "}
+                            {task.employee.userName}
+                          </div>
+                          <div className="mb-2">
+                            <span className="fw-bold">Project:</span>{" "}
+                            {task.project.title}
+                          </div>
+                          <div>
+                            <span className="fw-bold">Created:</span>{" "}
+                            {task.creationDate}
+                          </div>
+                        </div>
+                      </div>
                     ))
                   ) : (
-                    <tr>
-                      <td colSpan={6} className="no-data-row">
-                        <NoData />
-                      </td>
-                    </tr>
+                    <NoData />
                   )}
-                </tbody>
-              </Table>
-            </div>
+                </div>
+              </div>
+            </>
           )}
-          {/* Pagination */}
+
+          {/* PAGINATION */}
           <div
             className="custom-table-footer mt-4 px-3 flex-shrink-0"
-            style={{display:totalResults <= 5? "none": "block",}}>
+            style={{display: totalResults <= 5 ? "none" : "block"}}
+          >
             <div className="d-flex justify-content-center justify-content-md-end align-items-center flex-wrap gap-2">
               <span>Showing</span>
               <select
@@ -229,9 +317,7 @@ const { data: paginationWrapper, isLoading, refetch } = useGetData<PaginatedResp
                 <option value={10}>10</option>
                 <option value={20}>20</option>
               </select>
-              <span>
-                of {totalResults} Results
-              </span>
+              <span>of {totalResults} Results</span>
               <span>
                 Page {currentPage} of {totalPages}
               </span>
@@ -240,15 +326,16 @@ const { data: paginationWrapper, isLoading, refetch } = useGetData<PaginatedResp
                   className="btn border-0 p-1"
                   onClick={handlePrevPage}
                   disabled={currentPage === 1}
-                  style={{
-                    opacity: currentPage === 1 ? 0.4 : 1}}>
+                  style={{ opacity: currentPage === 1 ? 0.4 : 1 }}
+                >
                   <FontAwesomeIcon icon={faChevronLeft} />
                 </button>
                 <button
                   className="btn border-0 p-1"
                   onClick={handleNextPage}
                   disabled={currentPage >= totalPages}
-                  style={{opacity: currentPage >= totalPages? 0.4: 1,}}>
+                  style={{opacity: currentPage >= totalPages ? 0.4 : 1}}
+                >
                   <FontAwesomeIcon icon={faChevronRight} />
                 </button>
               </div>
