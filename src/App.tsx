@@ -16,9 +16,9 @@ import ProjectsList from './modules/Projects/components/ProjectsList';
 import ProjectData from './modules/Projects/components/ProjectData';
 import TasksList from './modules/Tasks/components/TasksList';
 import TaskData from './modules/Tasks/components/TaskData';
-import UserTasks from './modules/Tasks/components/UserTasks';
 import UsersList from './modules/Users/components/UsersList';
 import ProtectedRoute from './modules/Shared/components/ProtectedRoute/ProtectedRoute';
+import TaskBoard from './modules/Tasks/components/TaskBoard';
 
 
 function App() {
@@ -51,7 +51,7 @@ function App() {
           {path:"tasks" , element:<ProtectedRoute role={'Manager'}><TasksList/></ProtectedRoute>} ,
           {path:"task-data" , element:<ProtectedRoute role={'Manager'}><TaskData/></ProtectedRoute>} ,
           {path:"task-data/:taskId" , element:<ProtectedRoute role={'Manager'}><TaskData/></ProtectedRoute>} ,
-          {path:"user-tasks" , element:<ProtectedRoute role={'Employee'}><UserTasks/></ProtectedRoute>} ,
+          {path:"task-board" , element:<ProtectedRoute role={'Employee'}><TaskBoard/></ProtectedRoute>} ,
           {path:"users" , element:<ProtectedRoute role={'Manager'}><UsersList/></ProtectedRoute>} ,
           
         ]

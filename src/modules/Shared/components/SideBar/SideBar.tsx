@@ -98,7 +98,7 @@ export default function SideBar() {
             </MenuItem>
             <MenuItem
               icon={<FontAwesomeIcon icon={faListCheck} />}
-              component={<NavLink to={isAdmin ? "/dashboard/tasks" : "/dashboard/user-tasks"} />}
+              component={<NavLink to={isAdmin ? "/dashboard/tasks" : "/dashboard/task-board"} />}
             >
               {" "}
               Tasks{" "}

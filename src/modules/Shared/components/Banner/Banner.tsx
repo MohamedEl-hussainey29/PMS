@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 import {
   faChartSimple,
   faClipboardList,
@@ -11,6 +12,7 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 import { AuthContext } from "../../../../context/AuthContext";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -80,7 +82,13 @@ export default function Banner() {
         done: response.data.done,
       });
     } catch (error) {
-      toast.error('failed to fetch tasks')
+      if (axios.isAxiosError(error)) {
+        toast.error(
+          error.response?.data?.message || "failed to fetch tasks"
+        );
+      } else {
+        toast.error("Something went wrong");
+      }
     }
   };
 

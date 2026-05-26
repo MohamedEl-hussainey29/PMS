@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
+import Spinner from "../../Shared/components/Spinner/Spinner";
 
 export interface ProjectsFormValues {
   title: string;
@@ -17,11 +18,13 @@ export default function ProjectData() {
   const navigate = useNavigate();
   const { projectId } = useParams();
   const [isLoadingProject, setIsLoadingProject] = useState(!!projectId);
+  const [submitLoading , setSubmitLoading] = useState(false);
 
   const { register, formState: { errors }, handleSubmit, reset } = useForm<ProjectsFormValues>();
 
 
   const onSubmit = async (data: ProjectsFormValues) => {
+    setSubmitLoading(true)
     try {
       if (projectId) {
         await ProjectsAPI.UpdateProject(Number(projectId), data);
@@ -37,6 +40,8 @@ export default function ProjectData() {
       } else {
         toast.error("Something went wrong");
       }
+    }finally{
+      setSubmitLoading(true)
     }
   };
   useEffect(() => {
@@ -91,14 +96,7 @@ export default function ProjectData() {
             <div className="row justify-content-center align-items-center">
               <div className="col-md-8 bg-white my-4 rounded-3">
                 {isLoadingProject ? (
-                  <div
-                    className="d-flex justify-content-center align-items-center"
-                    style={{ minHeight: "500px" }}
-                  >
-                    <div className="spinner-border text-warning" role="status">
-                      <span className="visually-hidden">Loading...</span>
-                    </div>
-                  </div>
+                  <Spinner/>
                 ) : (
                   <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="row p-5">
@@ -138,7 +136,17 @@ export default function ProjectData() {
                         type="submit"
                         className="btn btn-warning text-white rounded-5 px-4 py-2 fs-5"
                       >
-                        {projectId ? "Update" : "Save"}
+                        {submitLoading ? (
+                          <>
+                            <span
+                              className="spinner-border spinner-border-sm me-2"
+                              role="status"
+                              aria-hidden="true"
+                            ></span> Saving...
+                          </>
+                        ) : (
+                          "Save"
+                        )}
                       </button>
                     </div>
                   </form>
