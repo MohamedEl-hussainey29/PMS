@@ -27,7 +27,6 @@ export default function NavBar() {
      
       <Modal show={show} onHide={handleClose} centered >
         <Modal.Body className="py-5 px-3" style={{zIndex:5000}}>
-          
               <div className="col-4 text-center w-100">
                 <img
                   src={userData?.imagePath || PersonalImg}
@@ -42,18 +41,13 @@ export default function NavBar() {
             <div className=" mt-4 ">
               <div className="divider " style={{width: '100%', height: '1px', backgroundColor: '#eeecec'}}></div>
               <span className=" info mt-2 " > <FontAwesomeIcon className="profile-info" icon={faUserShield} />  {userData?.userGroup} </span>
-
               <div className="divider my-2" style={{width: '100%', height: '1px', backgroundColor: '#eeecec'}}></div>
               <span className=" info"> <FontAwesomeIcon className="profile-info" icon={faIdBadge} /> {userData?.userId}</span>
-
               <div className="divider my-2" style={{width: '100%', height: '1px', backgroundColor: '#eeecec'}}></div>
               <span className="  info"> <FontAwesomeIcon className="profile-info" icon={faGlobe} /> {userData?.country} </span>
-
               <div className="divider my-2 " style={{width: '100%', height: '1px', backgroundColor: '#eeecec'}}></div>
               <span className="info"> <FontAwesomeIcon className="profile-info" icon={faMobileScreen} /> {userData?.phoneNumber} </span>
-
               <div className="divider my-2" style={{width: '100%', height: '1px', backgroundColor: '#eeecec'}}></div>
-
             </div>
          
        <div className="mt-4 text-end">
@@ -65,9 +59,6 @@ export default function NavBar() {
           </Button>
        </div>
         </Modal.Body>
-        
-          
-        
       </Modal>
 
       <Navbar expand="lg" className="bg-body-tertiary border-bottom">
@@ -129,7 +120,7 @@ export default function NavBar() {
                 </div>
               </div>
 
-              <FontAwesomeIcon icon={faAngleDown} onClick={handleShow}/>
+              <FontAwesomeIcon icon={faAngleDown} style={{cursor:'pointer'}} onClick={handleShow}/>
             </Nav>
           </Navbar.Collapse>
         </Container>
