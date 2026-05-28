@@ -60,7 +60,6 @@ export default function TasksList() {
     setSelectedTask(task);
     setShowView(true);
   };
-
   const handleViewClose = () => setShowView(false);
 
   const fetchTasks = useCallback(() => {
