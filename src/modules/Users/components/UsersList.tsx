@@ -298,7 +298,7 @@ export default function UsersList() {
             </>
           )}
 
-          <ViewModal show={showView} handleClose={handleViewClose} title="Project Details"
+          <ViewModal show={showView} handleClose={handleViewClose} title="User Info"
             fields={[
               {label: "Username", value: selectedUser?.userName},
               {label: "email", value: selectedUser?.email},

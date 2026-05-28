@@ -18,6 +18,19 @@ export interface ApiTask {
   id: number;
   title: string;
   status: string;
+  creationDate: string;
+  modificationDate: string;
+  description: string;
+
+  employee: {
+    userName: string;
+    email: string;
+  };
+
+  project: {
+    title: string;
+    description: string;
+  };
 }
 export type TaskStatus = "ToDo"| "InProgress"| "Done";
 
