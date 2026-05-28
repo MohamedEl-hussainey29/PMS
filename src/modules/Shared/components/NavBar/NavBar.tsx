@@ -4,13 +4,7 @@ import Navbar from "react-bootstrap/Navbar";
 import navbarLogo from "../../../../assets/navbarLogo.png";
 import PersonalImg from "../../../../assets/personalImg.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faAngleDown,
-  faBell,
-  faGlobe,
-  faMobileScreen,
-  faUserShield,
-} from "@fortawesome/free-solid-svg-icons";
+import {faAngleDown,faBell,faGlobe,faMobileScreen,faUser} from "@fortawesome/free-solid-svg-icons";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../../../context/AuthContext";
 import Button from "react-bootstrap/Button";
@@ -57,15 +51,13 @@ export default function NavBar() {
           <div className="mt-4 d-flex flex-column gap-3">
             <div className="d-flex justify-content-between align-items-center border-bottom pb-2 gap-2">
               <span className="fw-semibold text-success">Role</span>
-
               <span
                 className="text-muted text-end"
                 style={{
                   wordBreak: "break-word",
                 }}
               >
-                <FontAwesomeIcon className="me-2" icon={faUserShield} />
-
+                <FontAwesomeIcon className="me-2" icon={faUser} />
                 {userData?.userGroup}
               </span>
             </div>
