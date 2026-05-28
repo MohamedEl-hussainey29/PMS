@@ -235,7 +235,7 @@ export default function TasksList() {
                   {totalResults > 0 ? (
                     tasks.map((task) => (
                       <div key={task.id} className="col-12">
-                        <div className="border rounded-4 p-3 shadow-sm">
+                        <div className="border rounded-4 p-3 shadow-sm grid-card">
                           <div className="d-flex justify-content-between align-items-start mb-3">
                             <h5 className="mb-0 text-success" style={{color: "#0E382F",}}>
                               {task.title}

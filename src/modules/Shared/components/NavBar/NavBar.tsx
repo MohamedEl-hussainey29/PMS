@@ -26,7 +26,7 @@ export default function NavBar() {
       {/* modal */}
      
       <Modal show={show} onHide={handleClose} centered >
-        <Modal.Body className="py-5 px-3">
+        <Modal.Body className="py-5 px-3" style={{zIndex:5000}}>
           
               <div className="col-4 text-center w-100">
                 <img

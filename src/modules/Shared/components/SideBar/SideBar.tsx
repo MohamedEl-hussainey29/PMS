@@ -1,25 +1,12 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../../context/AuthContext";
 import { NavLink, useNavigate } from "react-router-dom";
-
 import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
 import { faHouse } from "@fortawesome/free-regular-svg-icons";
-
-import {
-  faAngleLeft,
-  faAngleRight,
-  faArrowRightFromBracket,
-  faDiagramProject,
-  faListCheck,
-  faUsers,
-} from "@fortawesome/free-solid-svg-icons";
-
+import {faAngleLeft,faAngleRight,faArrowRightFromBracket,faDiagramProject,faListCheck,faUsers} from "@fortawesome/free-solid-svg-icons";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-
 export default function SideBar() {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [toggled, setToggled] = useState(false);
@@ -29,6 +16,7 @@ export default function SideBar() {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
   const logout = () => {
     localStorage.removeItem("token");
     authContext?.setUserData(null);
@@ -37,6 +25,7 @@ export default function SideBar() {
   const toggleCollapsed = () => {
     setIsCollapsed(!isCollapsed);
   };
+
   const isAdmin = authContext?.userData?.userGroup === "Manager";
 
   // CLOSE MOBILE SIDEBAR WHEN SCREEN BECOMES LARGE
@@ -201,7 +190,7 @@ export default function SideBar() {
               }
               onClick={() => setToggled(false)}
             >
-              Tasks
+              {isAdmin? "Tasks" : "My Tasks"}
             </MenuItem>
 
             <MenuItem
