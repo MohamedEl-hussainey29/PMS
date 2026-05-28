@@ -110,7 +110,7 @@ export default function SideBar() {
           rootStyles={{
             height: "calc(100vh - 70px)",
             borderRight: "1px solid rgba(255,255,255,0.05)",
-            zIndex: 1600,
+            zIndex: 1000,
           }}
         >
           {/* MOBILE CLOSE BUTTON */}
