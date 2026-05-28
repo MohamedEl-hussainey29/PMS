@@ -245,7 +245,7 @@ export default function ProjectsList() {
                   {totalResults > 0 ? (
                     projects.map((proj) => (
                       <div key={proj.id} className="col-12">
-                        <div className="border rounded-4 p-3 shadow-sm">
+                        <div className="border rounded-4 p-3 shadow-sm grid-card">
                           <div className="d-flex justify-content-between align-items-start mb-3">
                             <h5 className="mb-0 text-success" style={{ color: "#0E382F" }}>{proj.title}</h5>
                             {userRole !== "Employee" && (
