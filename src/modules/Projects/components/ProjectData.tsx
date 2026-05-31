@@ -134,6 +134,7 @@ export default function ProjectData() {
                       </button>
                       <button
                         type="submit"
+                        disabled={submitLoading}
                         className="btn btn-warning text-white rounded-5 px-4 py-2 fs-5"
                       >
                         {submitLoading ? (

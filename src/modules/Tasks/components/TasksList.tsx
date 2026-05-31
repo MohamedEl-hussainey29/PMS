@@ -47,6 +47,7 @@ export default function TasksList() {
   const [searchValue, setSearchValue] = useState("");
   const [taskData, setTaskData] = useState<Task | null>(null);
   const [showDelete, setShowDelete] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const [showView, setShowView] = useState(false);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
 
@@ -110,6 +111,7 @@ export default function TasksList() {
   };
 
   const deleteTask = async (taskId: number) => {
+    setDeleteLoading(true);
     try {
       await TasksAPI.DeleteTaskById(taskId);
       handleCloseDelete();
@@ -121,6 +123,8 @@ export default function TasksList() {
       } else {
         toast.error("Something went wrong");
       }
+    }finally{
+      setDeleteLoading(false);
     }
   };
 
@@ -170,7 +174,7 @@ export default function TasksList() {
               </button>
             </div>
           </div>
-          <DeleteConfirmation show={showDelete} handleClose={handleCloseDelete} onDelete={deleteTask} item="Task" itemData={taskData} />
+          <DeleteConfirmation isLoading={deleteLoading} show={showDelete} handleClose={handleCloseDelete} onDelete={deleteTask} item="Task" itemData={taskData} />
           {/* TABLE / GRID */}
           {isLoading ? (
             <Spinner />

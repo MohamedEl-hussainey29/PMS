@@ -103,7 +103,7 @@ export default function ResetPassword() {
           <label htmlFor="confirmPassword">New Password</label>
           <div className="input-group">
             <input
-              type={showNewPassword ? "text" : "password"}
+              type={showConfirmPassword ? "text" : "password"}
               className="form-control px-0 auth-input"
               placeholder="Enter your New Password"
              {...register('confirmPassword', {
@@ -118,7 +118,7 @@ export default function ResetPassword() {
             >
               <FontAwesomeIcon
                 color="#FFF"
-                icon={showNewPassword ? faEyeSlash : faEye}
+                icon={showConfirmPassword ? faEyeSlash : faEye}
               />
             </span>
           </div>
