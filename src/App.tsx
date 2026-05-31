@@ -41,7 +41,7 @@ function App() {
 
      {
         path:"dashboard" ,
-        element:<ProtectedRoute><MasterLayout/></ProtectedRoute>,
+        element:<MasterLayout/>,
         errorElement:<NotFound/>,
         children:[
           {index:true , element : <Dashboard/>},
