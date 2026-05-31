@@ -51,6 +51,7 @@ export default function ProjectsList() {
   const [searchValue, setSearchValue] = useState("");
   const [projectData, setProjectData] = useState<Project | null>(null);
   const [showDelete, setShowDelete] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const [showView, setShowView] = useState(false);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
@@ -121,6 +122,7 @@ export default function ProjectsList() {
 
   // DELETE PROJECT
   const deleteProject = async (projectId: number) => {
+    setDeleteLoading(true);
     try {
       await ProjectsAPI.DeleteProjectById(projectId);
       handleDeleteClose();
@@ -134,6 +136,8 @@ export default function ProjectsList() {
       } else {
         toast.error("Something went wrong");
       }
+    }finally{
+      setDeleteLoading(false);
     }
   };
 
@@ -193,7 +197,7 @@ export default function ProjectsList() {
             </div>
           </div>
           {/* DELETE MODAL */}
-          <DeleteConfirmation show={showDelete} handleClose={handleDeleteClose} onDelete={deleteProject} item="Project" itemData={projectData} />
+          <DeleteConfirmation isLoading={deleteLoading} show={showDelete} handleClose={handleDeleteClose} onDelete={deleteProject} item="Project" itemData={projectData} />
           {/* TABLE */}
           {isLoading ? (
             <Spinner />

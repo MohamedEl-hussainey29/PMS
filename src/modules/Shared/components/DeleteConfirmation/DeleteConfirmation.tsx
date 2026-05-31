@@ -2,6 +2,7 @@ import deleteConfirm from '../../../../assets/deleteConfirmation.jpg'
 import Modal from 'react-bootstrap/Modal';
 
 interface DeleteConfirmationProps {
+  isLoading: boolean;
   show: boolean;
   handleClose: () => void;
   onDelete: (id: number) => void;
@@ -12,7 +13,7 @@ interface DeleteConfirmationProps {
   } | null;
 }
 
-export default function DeleteConfirmation({show,handleClose,onDelete,item,itemData}: DeleteConfirmationProps) {
+export default function DeleteConfirmation({isLoading,show,handleClose,onDelete,item,itemData}: DeleteConfirmationProps) {
   return (
     <>
       <Modal show={show} onHide={handleClose} centered >
@@ -27,8 +28,18 @@ export default function DeleteConfirmation({show,handleClose,onDelete,item,itemD
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <button  className="btn btn-outline-danger fw-bold" onClick={()=>onDelete(itemData!.id)}>
-            Delete this item
+          <button disabled={isLoading}  className="btn btn-outline-danger fw-bold" onClick={()=>onDelete(itemData!.id)}>
+            {isLoading ? (
+              <>
+                <span
+                  className="spinner-border spinner-border-sm me-2"
+                  role="status"
+                  aria-hidden="true"
+                ></span> Deleting
+              </>
+            ) : (
+              "Delete this item"
+            )}
           </button>
         </Modal.Footer>
       </Modal>
