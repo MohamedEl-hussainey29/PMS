@@ -37,39 +37,39 @@ export default function TaskData() {
   const [taskProject, setTaskProject] = useState<Project | null>(null);
   const {register, formState:{errors}, handleSubmit , setValue} = useForm<TasksFormValues>();
 
-const { data: usersResponse } = useGetData<any>(UsersAPI.GetEmployeesByManager);
-const { data: projectsResponse } = useGetData<any>(ProjectsAPI.GetProjectsByManager);
+  const { data: usersResponse } = useGetData<any>(() => UsersAPI.GetEmployeesByManager({page: 1, size: 100, groups: 2}));
+  const { data: projectsResponse } = useGetData<any>(() => ProjectsAPI.GetProjectsByManager({page: 1, size: 100}));
 
-const users: User[] = usersResponse?.data || [];
-const projects: Project[] = projectsResponse?.data || [];
+  const users: User[] = usersResponse?.data || [];
+  const projects: Project[] = projectsResponse?.data || [];
 
-useEffect(() => {
-  if (taskId && users.length > 0 && projects.length > 0) {
-    const getTaskDetails = async () => {
-      setIsLoadingTask(true);
-      try {
-        const response = await TasksAPI.GetTaskById(Number(taskId));
-        setTaskEmployee(response.data.employee);
-        setTaskProject(response.data.project);
+  useEffect(() => {
+    if (taskId && users.length > 0 && projects.length > 0) {
+      const getTaskDetails = async () => {
+        setIsLoadingTask(true);
+        try {
+          const response = await TasksAPI.GetTaskById(Number(taskId));
+          setTaskEmployee(response.data.employee);
+          setTaskProject(response.data.project);
 
-        setValue("title", response.data.title);
-        setValue("description", response.data.description);
-        setValue("employeeId", response.data.employee.id);
-        setValue("projectId", response.data.project.id);
-      } catch (error) {
-        if (axios.isAxiosError(error)) {
-          toast.error(error.response?.data?.message);
-        } else {
-          toast.error("Something went wrong");
+          setValue("title", response.data.title);
+          setValue("description", response.data.description);
+          setValue("employeeId", response.data.employee.id);
+          setValue("projectId", response.data.project.id);
+        } catch (error) {
+          if (axios.isAxiosError(error)) {
+            toast.error(error.response?.data?.message);
+          } else {
+            toast.error("Something went wrong");
+          }
+        } finally {
+          setIsLoadingTask(false);
         }
-      } finally {
-        setIsLoadingTask(false);
-      }
-    };
+      };
 
-    getTaskDetails();
-  }
-}, [taskId, users.length, projects.length, setValue]);
+      getTaskDetails();
+    }
+  }, [taskId, users.length, projects.length, setValue]);
 
   const mergedUsers =
     taskEmployee &&
