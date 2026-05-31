@@ -4,60 +4,115 @@ import Navbar from "react-bootstrap/Navbar";
 import navbarLogo from "../../../../assets/navbarLogo.png";
 import PersonalImg from "../../../../assets/personalImg.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleDown, faBell } from "@fortawesome/free-solid-svg-icons";
+import {faAngleDown,faBell,faGlobe,faMobileScreen,faUser} from "@fortawesome/free-solid-svg-icons";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../../../context/AuthContext";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-
-
+import { faIdBadge } from "@fortawesome/free-regular-svg-icons";
+import { useNavigate } from "react-router-dom";
 
 export default function NavBar() {
+  const navigate = useNavigate();
   const { userData } = useContext(AuthContext)!;
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-
-
   return (
     <>
-      {/* modal */}
-     
-      <Modal show={show} onHide={handleClose} centered size="lg">
-        
-        <Modal.Body className="py-5 px-3">
-          <div className="row">
-            <div className="col-md-4">
-              <div className="inner d-flex align-items-center justify-content-center">
-                <img
-                  src={userData?.imagePath || PersonalImg}
-                  className="w-75 h-25 rounded rounded-3 "
-                  alt="personal image"
-                  style={{ width: "300px", height: "200px", objectFit: "cover" }}
-                />
-              </div>
+      <Modal show={show} onHide={handleClose} centered>
+        <Modal.Body
+          className="py-4 px-3 rounded-3"
+          style={{backgroundColor: "#F8F9FA"}}
+        >
+          <div className="text-center">
+            <img
+              src={userData?.imagePath || PersonalImg}
+              className="rounded-circle img-fluid"
+              alt="personal image"
+              style={{
+                width: "120px",
+                height: "120px",
+                objectFit: "cover",
+              }}
+            />
+            <h5
+              className="mt-3 mb-1 fw-bold"
+              style={{color: "#0E382F"}}>
+              {userData?.userName}
+            </h5>
+            <p
+              className="mb-0 text-muted small"
+              style={{wordBreak: "break-word"}} >
+              {userData?.userEmail}
+            </p>
+          </div>
+          <div className="mt-4 d-flex flex-column gap-3">
+            <div className="d-flex justify-content-between align-items-center border-bottom pb-2 gap-2">
+              <span className="fw-semibold text-success">Role</span>
+              <span
+                className="text-muted text-end"
+                style={{
+                  wordBreak: "break-word",
+                }}
+              >
+                <FontAwesomeIcon className="me-2" icon={faUser} />
+                {userData?.userGroup}
+              </span>
             </div>
 
-            <div className="col-md-8 mt-4 py-5">
-              <span className=" info" > <span className="profile-info"> UserName : </span> {userData?.userName} </span>
-              <span className=" info py-1" ><span className="profile-info"> UserRole : </span>  {userData?.userGroup} </span>
-              <span className="info"> <span className="profile-info"> Email : </span> {userData?.userEmail}</span>
-              <span className=" info py-1"><span className="profile-info"> UserId : </span> {userData?.userId}</span>
-              <span className="  info"><span className="profile-info"> Country : </span> {userData?.country} </span>
-              <span className="info pt-1"><span className="profile-info"> Phone Number : </span> {userData?.phoneNumber} </span>
+            <div className="d-flex justify-content-between align-items-center border-bottom pb-2 gap-2">
+              <span className="fw-semibold text-success">ID</span>
 
+              <span className="text-muted text-end">
+                <FontAwesomeIcon className="me-2" icon={faIdBadge} />
+
+                {userData?.userId}
+              </span>
+            </div>
+
+            <div className="d-flex justify-content-between align-items-center border-bottom pb-2 gap-2">
+              <span className="fw-semibold text-success">Country</span>
+
+              <span className="text-muted text-end">
+                <FontAwesomeIcon className="me-2" icon={faGlobe} />
+
+                {userData?.country}
+              </span>
+            </div>
+            <div className="d-flex justify-content-between align-items-center border-bottom pb-2 gap-2">
+              <span className="fw-semibold text-success">Phone</span>
+
+              <span
+                className="text-muted text-end"
+                style={{
+                  wordBreak: "break-word",
+                }}
+              >
+                <FontAwesomeIcon className="me-2" icon={faMobileScreen} />
+                {userData?.phoneNumber}
+              </span>
             </div>
           </div>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal>
 
-      <Navbar expand="lg" className="bg-body-tertiary">
+          <div className="d-flex flex-column flex-sm-row gap-2 mt-4">
+            <Button
+              className="border-0 w-100"
+              style={{
+                backgroundColor: "#EF9B28",
+              }}
+              onClick={() => navigate("/change-pass")}
+            >
+              Change Password
+            </Button>
+            <Button variant="secondary" className="w-100" onClick={handleClose}>
+              Close
+            </Button>
+          </div>
+        </Modal.Body>
+      </Modal>
+      <Navbar expand="lg" className="bg-body-tertiary border-bottom">
         <Container fluid>
           <Navbar.Brand href="/dashboard">
             <img src={navbarLogo} alt="navbar logo" />
@@ -92,7 +147,7 @@ export default function NavBar() {
               </div>
 
               <div
-                className="divider mx-3"
+                className="divider mx-3 d-none d-md-block"
                 style={{
                   width: "1px",
                   height: "40px",
@@ -103,10 +158,12 @@ export default function NavBar() {
               <div className="d-flex align-items-center justify-content-center">
                 <img
                   src={userData?.imagePath || PersonalImg}
-                  onError={(e) => {e.currentTarget.src = PersonalImg}}
+                  onError={(e) => {
+                    e.currentTarget.src = PersonalImg;
+                  }}
                   className="col-3 rounded rounded-5"
                   alt="personal image"
-                  style={{ width: "50px", height: "50px", objectFit: 'cover' }}
+                  style={{ width: "50px", height: "50px", objectFit: "cover" }}
                 />
                 <div className="ms-2 ">
                   <h4 className="h6 mb-0">{userData?.userName}</h4>
@@ -115,8 +172,11 @@ export default function NavBar() {
                   </small>
                 </div>
               </div>
-
-              <FontAwesomeIcon icon={faAngleDown} onClick={handleShow}/>
+              <FontAwesomeIcon
+                icon={faAngleDown}
+                style={{ cursor: "pointer" }}
+                onClick={handleShow}
+              />
             </Nav>
           </Navbar.Collapse>
         </Container>

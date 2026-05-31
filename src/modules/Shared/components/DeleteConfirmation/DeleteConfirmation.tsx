@@ -15,8 +15,8 @@ interface DeleteConfirmationProps {
 export default function DeleteConfirmation({show,handleClose,onDelete,item,itemData}: DeleteConfirmationProps) {
   return (
     <>
-      <Modal show={show} onHide={handleClose} centered>
-        <div className="d-flex justify-content-end">
+      <Modal show={show} onHide={handleClose} centered >
+        <div className="d-flex justify-content-end" style={{zIndex: 2000}}>
           <button className="btn btn-outline-danger rounded-circle fw-bold m-3" onClick={handleClose}>X</button>
         </div>
         <Modal.Body>

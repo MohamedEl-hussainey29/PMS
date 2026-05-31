@@ -132,3 +132,7 @@ select.form-control option {
         padding: 2px 8px;
     }
 }
+
+.grid-card{
+    background: #F5F5F5;
+}

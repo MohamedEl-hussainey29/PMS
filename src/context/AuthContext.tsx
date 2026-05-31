@@ -27,6 +27,7 @@ interface AuthContextInterface {
   userData: User | null;
   setUserData: Dispatch<SetStateAction<User | null>>;
   saveUserData: () => void;
+  isLoading: boolean;
 }
 
 interface AuthContextProviderProps {
@@ -39,29 +40,33 @@ export default function AuthContextProvider({
   children,
 }: AuthContextProviderProps) {
   const [userData, setUserData] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const saveUserData = async () => {
     const encodedToken = localStorage.getItem("token");
-    if (encodedToken) {
-      try {
-        const decodedToken = jwtDecode<User>(encodedToken);
+    if (!encodedToken) {
+      setIsLoading(false);
+      return;
+    }
+    try {
+      const decodedToken = jwtDecode<User>(encodedToken);
       const response = await getCurrentUser();
-      console.log("CURRENT USER =>", response.data);
       const currentUser = response.data;
       setUserData({
         ...decodedToken,
         imagePath: currentUser.imagePath
           ? `https://upskilling-egypt.com:3003/${currentUser.imagePath.replace(
               /\\/g,
-              "/",
+              "/"
             )}`
           : "",
         country: currentUser.country,
         phoneNumber: currentUser.phoneNumber,
       });
-      } catch (error) {
-        console.log(error);  
-      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -73,7 +78,7 @@ export default function AuthContextProvider({
   }, []);
 
   return (
-    <AuthContext.Provider value={{ userData, setUserData, saveUserData }}>
+    <AuthContext.Provider value={{ userData, setUserData, saveUserData,isLoading }}>
       {children}
     </AuthContext.Provider>
   );
