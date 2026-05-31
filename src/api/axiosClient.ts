@@ -3,7 +3,7 @@ import axios from "axios";
 
 const axiosClient = axios.create({
     baseURL: "https://upskilling-egypt.com:3003/api/v1",
-    timeout: 5000
+    timeout: 15000
 });
 
 axiosClient.interceptors.request.use(
@@ -25,7 +25,7 @@ axiosClient.interceptors.response.use(
     },
     (error) => {
         if (error.response) {
-            if (error.response?.status === 401 && window.location.pathname !== "/login") { 
+            if (error.response?.status === 401 && window.location.pathname !== "/login" && window.location.pathname !== "/") { 
                 localStorage.removeItem("token");
                 window.location.href = "/login";
             }

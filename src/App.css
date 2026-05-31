@@ -1,3 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Quicksand:wght@300..700&display=swap');
+
+body{
+    font-family: "Quicksand", sans-serif;
+}
 .auth-container{
     background-image: url("./assets/auth-bg.png");
     background-size: 100% 100%;
@@ -12,7 +17,6 @@
 
 .auth-title{
     position: relative;
-
     color: #EF9B28;
     
 }
@@ -31,11 +35,104 @@
     background-color: #F5A623;
 }
 
-.form-control::placeholder{
+.auth-form-input .form-control::placeholder{
     color: #ffffff;
     opacity: 1;
 }
 
-.form-input label{
+.auth-form-input label{
     color: #EF9B28;
+}
+
+.auth-input {
+    border: 0;
+    background-Color: transparent !important;
+    border-Bottom: 1px solid #FFF;
+    border-radius: 0;
+    color: #FFF !important;
+}
+
+select.form-control {
+  height: 50px;
+  border: 1px solid #ced4da;
+  cursor: pointer;
+}
+
+select.form-control option {
+  padding: 10px;
+  background-color: white;
+  color: #0E382F;
+  font-size: 16px;
+}
+
+/* //////////////////////////////////////////////////////////// */
+
+.custom-table thead tr th {
+    background-color: #315951 !important;
+    color: white !important;
+    padding: 18px 14px;
+    font-weight: 400;
+    border: none;
+}
+
+.custom-table tbody tr td {
+    padding: 18px 14px;
+    border-color: #F1F1F1;
+    color: #555;
+}
+
+.custom-table tbody tr {
+    vertical-align: middle;
+}
+
+.form-select:focus,
+    input:focus {
+    box-shadow: none !important;
+}
+
+.custom-table {
+    min-width: 800px;
+}
+
+@media (max-width: 768px) {
+
+    .users-list-header h3 {
+        font-size: 22px;
+    }
+
+    .custom-table thead tr th,
+    .custom-table tbody tr td {
+        font-size: 14px;
+        padding: 14px 10px;
+    }
+
+    .dropdown-menu {
+        min-width: 120px;
+    }
+}
+
+.custom-table-footer {
+    font-size: 14px;
+}
+
+.custom-table-footer .form-select {
+    font-size: 14px;
+    padding: 4px 12px;
+}
+
+@media (max-width: 768px) {
+
+    .custom-table-footer {
+        font-size: 11px;
+    }
+
+    .custom-table-footer .form-select {
+        width: 60px !important;
+        font-size: 11px;
+        padding: 2px 8px;
+    }
+}
+
+.grid-card{
+    background: #F5F5F5;
 }

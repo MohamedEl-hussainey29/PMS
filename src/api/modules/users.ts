@@ -1,0 +1,30 @@
+
+import axiosClient from "../axiosClient"
+
+interface PaginationParams {
+  page: number;
+  size: number;
+  groups: number;
+}
+
+export const GetEmployeesByManager = (params?: PaginationParams) => {
+  return axiosClient.get('/Users/', {
+    params: {
+      pageNumber: params?.page, 
+      pageSize: params?.size,
+      groups: params?.groups    
+    }
+  });
+};
+
+export const ToggleActivate = (id:number)=>{
+    return axiosClient.put(`/Users/${id}`);
+}
+    
+export const getUsersCount = () => {
+    return axiosClient.get('/Users/count');    
+}
+
+export const getCurrentUser = () => {
+    return axiosClient.get('Users/currentUser');    
+}

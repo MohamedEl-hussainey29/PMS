@@ -3,18 +3,23 @@ import { useNavigate } from "react-router-dom";
 import { AuthAPI } from "../../../../api";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { useState } from "react";
 
 
 export interface VerifyFormValues {
   email: string;
   code: string;
 }
+
 export default function VerifyAccount() {
 
   const {register , handleSubmit , formState:{errors}} = useForm<VerifyFormValues>();
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+  
   
     const onSubmit = async(data:VerifyFormValues)=>{
+      setIsLoading(true)
       try {
         const response = await AuthAPI.VerifyAccount(data);
         toast.success(response?.data?.message);
@@ -25,6 +30,8 @@ export default function VerifyAccount() {
         } else {
           toast.error("Something went wrong");
         }
+      }finally{
+        setIsLoading(false)
       }
     }
   return (
@@ -33,7 +40,7 @@ export default function VerifyAccount() {
         <h3>verify Account</h3>
       </div>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="mt-5 d-flex flex-column form-input">
+        <div className="mt-5 d-flex flex-column auth-form-input">
           <label htmlFor="email">E-mail</label>
           <input 
             type="email" 
@@ -52,7 +59,7 @@ export default function VerifyAccount() {
           />
         </div>
         {errors.email && <span className="text-danger">{errors.email.message}</span>}
-        <div className="mt-5 d-flex flex-column form-input">
+        <div className="mt-5 d-flex flex-column auth-form-input">
           <label htmlFor="otp">OTP Verification</label>
           <input 
             type="text" 
@@ -69,7 +76,17 @@ export default function VerifyAccount() {
         {errors.code && <span className="text-danger">{errors.code.message}</span>}
         <div className="d-flex justify-content-center mt-3">
           <button className="btn w-75 my-4 text-white py-3 rounded-5" style={{backgroundColor:'#EF9B28',fontWeight:500}}>
-            Save
+            {isLoading ? (
+              <>
+                <span
+                  className="spinner-border spinner-border-sm me-2"
+                  role="status"
+                  aria-hidden="true"
+                ></span> Verifying
+              </>
+            ) : (
+              "Save"
+            )}
           </button>
         </div>
       </form>
